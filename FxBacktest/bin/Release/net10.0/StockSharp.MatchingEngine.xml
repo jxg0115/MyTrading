@@ -1,0 +1,1621 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockSharp.MatchingEngine</name>
+    </assembly>
+    <members>
+        <member name="T:StockSharp.MatchingEngine.EmulatedPortfolio">
+            <summary>
+            Emulated portfolio implementation that tracks positions and money in-memory.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.#ctor(System.String,StockSharp.MatchingEngine.IMarkPrices)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="name">Portfolio name.</param>
+            <param name="markPrices">Where the prices to revalue open positions come from.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.Name">
+            <summary>
+            Portfolio name.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.BeginMoney">
+            <summary>
+            Initial money amount.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.CurrentMoney">
+            <summary>
+            Current money (begin + PnL).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.AvailableMoney">
+            <summary>
+            Available money (current - blocked).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.RealizedPnL">
+            <summary>
+            Total realized PnL.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.TotalPnL">
+            <summary>
+            Total PnL (realized - commission).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.UnrealizedPnL">
+            <summary>
+            What the open positions have gained or lost since they were taken, at the prices they could be
+            closed at now. A position the market has not priced counts for nothing.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.BlockedMoney">
+            <summary>
+            Blocked money for pending orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.Commission">
+            <summary>
+            Total commission paid.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.MarginCallLevel">
+            <summary>
+            Margin call level threshold. When margin level falls to this value, a warning is triggered.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.StopOutLevel">
+            <summary>
+            Stop-out level threshold. When margin level falls to this value, positions are liquidated.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolio.EnableStopOut">
+            <summary>
+            Enable automatic position liquidation on stop-out.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.SetMoney(System.Decimal)">
+            <summary>
+            Set initial money.
+            </summary>
+            <param name="money">Money amount.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.SetPosition(StockSharp.Messages.SecurityId,System.Decimal,System.Decimal)">
+            <summary>
+            Set initial position.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="volume">Position volume.</param>
+            <param name="avgPrice">Average entry price.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.GetPosition(StockSharp.Messages.SecurityId)">
+            <summary>
+            Get position for security.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <returns>Position info or null.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.ProcessTrade(StockSharp.Messages.SecurityId,StockSharp.Messages.Sides,System.Decimal,System.Decimal,System.Nullable{System.Decimal})">
+            <summary>
+            Process a trade execution.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="side">Trade side.</param>
+            <param name="price">Trade price.</param>
+            <param name="volume">Trade volume.</param>
+            <param name="commission">Commission amount.</param>
+            <returns>Trade processing result.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.ProcessOrderRegistration(StockSharp.Messages.SecurityId,StockSharp.Messages.Sides,System.Decimal,System.Decimal)">
+            <summary>
+            Process order registration (block funds).
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="side">Order side.</param>
+            <param name="volume">Order volume.</param>
+            <param name="price">Order price for margin calculation.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.ProcessOrderCancellation(StockSharp.Messages.SecurityId,StockSharp.Messages.Sides,System.Decimal,System.Decimal)">
+            <summary>
+            Process order cancellation (unblock funds).
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="side">Order side.</param>
+            <param name="volume">Cancelled volume.</param>
+            <param name="price">Price used for margin calculation.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.GetPositions">
+            <summary>
+            Get all positions.
+            </summary>
+            <returns>Enumeration of positions.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.GetAllPositions">
+            <summary>
+            Get all position info objects.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.CalculateUnrealizedPnL(System.Func{StockSharp.Messages.SecurityId,System.Nullable{System.Decimal}})">
+            <summary>
+            Calculate unrealized PnL across all positions.
+            </summary>
+            <param name="getCurrentPrice">Function to get current market price for a security. Returns null if price unavailable.</param>
+            <returns>Total unrealized PnL.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolio.Clear">
+            <summary>
+            Clear all state (used by Reset).
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.EmulatedPortfolioManager">
+            <summary>
+            Portfolio manager that creates emulated portfolios in-memory.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolioManager.MarginController">
+            <summary>
+            Margin controller for order validation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatedPortfolioManager.MarkPrices">
+            <summary>
+            Where the prices to revalue open positions come from. Until the engine supplies them every
+            position is worth what it cost.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.GetPortfolio(System.String)">
+            <summary>
+            Get or create a portfolio by name.
+            </summary>
+            <param name="name">Portfolio name.</param>
+            <returns>Portfolio instance.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.TryGetPortfolio(System.String,StockSharp.MatchingEngine.EmulatedPortfolio@)">
+            <summary>
+            Look an account up without opening one, unlike <see cref="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.GetPortfolio(System.String)"/>, which creates the
+            account when the name is unknown.
+            </summary>
+            <param name="name">Portfolio name.</param>
+            <param name="portfolio">The account, or <see langword="null"/> when no account carries that name.</param>
+            <returns><see langword="true"/> when the account exists.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.HasPortfolio(System.String)">
+            <summary>
+            Check if portfolio exists.
+            </summary>
+            <param name="name">Portfolio name.</param>
+            <returns>True if exists.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.GetAllPortfolios">
+            <summary>
+            Get all portfolios.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.ValidateFunds(System.String,StockSharp.Messages.SecurityId,System.Decimal,System.Decimal)">
+            <summary>
+            Validate that portfolio has sufficient funds for order registration.
+            </summary>
+            <param name="portfolioName">Portfolio name.</param>
+            <param name="securityId">Security ID (for per-position leverage).</param>
+            <param name="price">Order price.</param>
+            <param name="volume">Order volume.</param>
+            <returns>Error if insufficient funds, null otherwise.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.EmulatedPortfolioManager.Clear">
+            <summary>
+            Clear all portfolio state.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IMarginController">
+            <summary>
+            Interface for controlling margin trading logic.
+            Leverage is per-position (<see cref="P:StockSharp.MatchingEngine.PositionInfo.Leverage"/>).
+            Margin call/stop-out levels are per-portfolio (<see cref="P:StockSharp.MatchingEngine.EmulatedPortfolio.MarginCallLevel"/>, <see cref="P:StockSharp.MatchingEngine.EmulatedPortfolio.StopOutLevel"/>).
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarginController.GetRequiredMargin(System.Decimal,System.Decimal,StockSharp.MatchingEngine.PositionInfo)">
+            <summary>
+            Calculate required margin for an order, using position-level leverage.
+            </summary>
+            <param name="price">Order price.</param>
+            <param name="volume">Order volume.</param>
+            <param name="position">Position info (for leverage). Can be null (uses default leverage 1).</param>
+            <returns>Required margin amount.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarginController.ValidateOrder(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal,System.Decimal,StockSharp.MatchingEngine.PositionInfo)">
+            <summary>
+            Validate that portfolio has sufficient funds for order.
+            </summary>
+            <param name="portfolio">Portfolio to check.</param>
+            <param name="price">Order price.</param>
+            <param name="volume">Order volume.</param>
+            <param name="position">Position info (for leverage). Can be null.</param>
+            <returns>Error if insufficient funds, null otherwise.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarginController.CheckMarginLevel(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <summary>
+            Calculate current margin level for a portfolio.
+            </summary>
+            <param name="portfolio">Portfolio.</param>
+            <param name="unrealizedPnL">Current unrealized PnL.</param>
+            <returns>Margin level ratio (equity / blocked). Returns <see cref="F:System.Decimal.MaxValue"/> if no blocked money.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarginController.IsMarginCall(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <summary>
+            Check if portfolio is in margin call state.
+            Uses <see cref="P:StockSharp.MatchingEngine.EmulatedPortfolio.MarginCallLevel"/>.
+            </summary>
+            <param name="portfolio">Portfolio.</param>
+            <param name="unrealizedPnL">Current unrealized PnL.</param>
+            <returns>True if margin level is at or below margin call threshold.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarginController.IsStopOut(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <summary>
+            Check if portfolio is in stop-out state.
+            Uses <see cref="P:StockSharp.MatchingEngine.EmulatedPortfolio.EnableStopOut"/> and <see cref="P:StockSharp.MatchingEngine.EmulatedPortfolio.StopOutLevel"/>.
+            </summary>
+            <param name="portfolio">Portfolio.</param>
+            <param name="unrealizedPnL">Current unrealized PnL.</param>
+            <returns>True if stop-out is enabled and margin level is at or below stop-out threshold.</returns>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IMarkPrices">
+            <summary>
+            What an open position can be closed at right now.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IMarkPrices.TryGetClosePrice(StockSharp.Messages.SecurityId,StockSharp.Messages.Sides)">
+            <summary>
+            The price a position in <paramref name="securityId"/> can be closed at by an order of
+            <paramref name="closeSide"/>.
+            </summary>
+            <param name="securityId">Instrument the position is held in.</param>
+            <param name="closeSide">Side of the order that would close the position.</param>
+            <returns>The price, or <see langword="null"/> when the market has not named one.</returns>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.OrderBookLevel">
+            <summary>
+            Represents a price level in the order book.
+            </summary>
+            <param name="Price">The price of the level.</param>
+            <param name="Volume">Total volume at this level.</param>
+            <param name="Orders">Orders at this level.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBookLevel.#ctor(System.Decimal,System.Decimal,System.Collections.Generic.IReadOnlyList{StockSharp.MatchingEngine.EmulatorOrder})">
+            <summary>
+            Represents a price level in the order book.
+            </summary>
+            <param name="Price">The price of the level.</param>
+            <param name="Volume">Total volume at this level.</param>
+            <param name="Orders">Orders at this level.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBookLevel.Price">
+            <summary>The price of the level.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBookLevel.Volume">
+            <summary>Total volume at this level.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBookLevel.Orders">
+            <summary>Orders at this level.</summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.EmulatorOrder">
+            <summary>
+            Order stored in the emulator order book.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.TransactionId">
+            <summary>
+            Transaction ID of the order.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.OrderId">
+            <summary>
+            Order ID assigned by exchange/emulator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.Side">
+            <summary>
+            Order side.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.Price">
+            <summary>
+            Order price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.Balance">
+            <summary>
+            Remaining order volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.Volume">
+            <summary>
+            Original order volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.PortfolioName">
+            <summary>
+            Portfolio name. Null for market quotes.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.TimeInForce">
+            <summary>
+            Time in force.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.OrderType">
+            <summary>
+            Order type.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.PostOnly">
+            <summary>
+            Post-only flag.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.ExpiryDate">
+            <summary>
+            Expiry date.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.ServerTime">
+            <summary>
+            Server time when order was registered.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.LocalTime">
+            <summary>
+            Local time when order was registered.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.MarginPrice">
+            <summary>
+            Margin price used for blocking funds (may differ from order price).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.EmulatorOrder.IsUserOrder">
+            <summary>
+            Indicates if this is a user order (has portfolio) or market quote.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IOrderBook">
+            <summary>
+            Interface for order book management.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.SecurityId">
+            <summary>
+            Security ID.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.BestBid">
+            <summary>
+            Get best bid price and volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.BestAsk">
+            <summary>
+            Get best ask price and volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.TotalBidVolume">
+            <summary>
+            Total volume of all bids.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.TotalAskVolume">
+            <summary>
+            Total volume of all asks.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.BidLevels">
+            <summary>
+            Number of bid levels.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderBook.AskLevels">
+            <summary>
+            Number of ask levels.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.AddQuote(StockSharp.MatchingEngine.EmulatorOrder)">
+            <summary>
+            Add a quote to the order book.
+            </summary>
+            <param name="order">Order or market quote to add. If <see cref="P:StockSharp.MatchingEngine.EmulatorOrder.TransactionId"/> is default, it is treated as a market quote.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.RemoveQuote(System.Int64,StockSharp.Messages.Sides,System.Decimal)">
+            <summary>
+            Remove a quote from the order book.
+            </summary>
+            <param name="transactionId">Transaction id of the order to remove.</param>
+            <param name="side">Side (buy/sell) where the order is placed.</param>
+            <param name="price">Price level of the order.</param>
+            <returns>True if removed, false if not found.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.UpdateLevel(StockSharp.Messages.Sides,System.Decimal,System.Decimal)">
+            <summary>
+            Update volume at a price level (for market quotes).
+            </summary>
+            <param name="side">Side to update.</param>
+            <param name="price">Price level to update.</param>
+            <param name="volume">New market volume at the level.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.RemoveLevel(StockSharp.Messages.Sides,System.Decimal)">
+            <summary>
+            Remove entire level at price.
+            </summary>
+            <param name="side">Side to remove level from.</param>
+            <param name="price">Price level to remove.</param>
+            <returns>Removed orders that were present at that level.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.GetLevels(StockSharp.Messages.Sides)">
+            <summary>
+            Get quotes for a side, ordered by price (best first).
+            </summary>
+            <param name="side">Side to retrieve levels for.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.GetVolumeAtPrice(StockSharp.Messages.Sides,System.Decimal)">
+            <summary>
+            Get volume at a specific price level.
+            </summary>
+            <param name="side">Side to query.</param>
+            <param name="price">Price level to query.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.GetOrdersAtPrice(StockSharp.Messages.Sides,System.Decimal)">
+            <summary>
+            Get all user orders at a specific price level.
+            </summary>
+            <param name="side">Side to query.</param>
+            <param name="price">Price level to query.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.HasLevel(StockSharp.Messages.Sides,System.Decimal)">
+            <summary>
+            Check if there's a quote at the specified price.
+            </summary>
+            <param name="side">Side to check.</param>
+            <param name="price">Price level to check.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.Clear">
+            <summary>
+            Clear all quotes.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.Clear(StockSharp.Messages.Sides)">
+            <summary>
+            Clear all quotes for a specific side.
+            </summary>
+            <param name="side">Side to clear.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.SetSnapshot(System.Collections.Generic.IEnumerable{StockSharp.Messages.QuoteChange},System.Collections.Generic.IEnumerable{StockSharp.Messages.QuoteChange})">
+            <summary>
+            Set the order book from a snapshot (replaces all non-user quotes).
+            </summary>
+            <param name="bids">Sequence of bid quote changes to set.</param>
+            <param name="asks">Sequence of ask quote changes to set.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.ToMessage(System.DateTime,System.DateTime)">
+            <summary>
+            Create a QuoteChangeMessage from current state.
+            </summary>
+            <param name="localTime">Local time to set on the generated message.</param>
+            <param name="serverTime">Server time to set on the generated message.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderBook.GetTotalVolume(StockSharp.Messages.Sides)">
+            <summary>
+            Get total volume for a side.
+            </summary>
+            <param name="side">Side to get total volume for.</param>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IOrderLifecycleManager">
+            <summary>
+            Manages order lifecycle (active orders, expiry, etc.).
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.RegisterOrder(StockSharp.MatchingEngine.EmulatorOrder,System.DateTime)">
+            <summary>
+            Register a new active order.
+            </summary>
+            <param name="order">Order to register.</param>
+            <param name="currentTime">Current time for expiry calculation.</param>
+            <returns>True if registered, false if already exists.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetOrder(System.Int64)">
+            <summary>
+            Get an active order by transaction ID.
+            </summary>
+            <param name="transactionId">Transaction id of the order to retrieve.</param>
+            <returns>The matching <see cref="T:StockSharp.MatchingEngine.EmulatorOrder"/> or null if not found.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.TryGetOrder(System.Int64,StockSharp.MatchingEngine.EmulatorOrder@)">
+            <summary>
+            Try to get an active order by transaction ID.
+            </summary>
+            <param name="transactionId">Transaction id to look up.</param>
+            <param name="order">When method returns true, contains the found order.</param>
+            <returns>True if order was found, otherwise false.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.RemoveOrder(System.Int64)">
+            <summary>
+            Remove an order from active orders.
+            </summary>
+            <param name="transactionId">Transaction id of the order to remove.</param>
+            <returns>True if removed, false if not found.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.TryRemoveOrder(System.Int64,StockSharp.MatchingEngine.EmulatorOrder@)">
+            <summary>
+            Remove and return an order.
+            </summary>
+            <param name="transactionId">Transaction id of the order to remove.</param>
+            <param name="order">When method returns true, contains the removed order.</param>
+            <returns>True if the order was removed, otherwise false.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetActiveOrders">
+            <summary>
+            Get all active orders.
+            </summary>
+            <returns>Enumeration of all active orders.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetActiveOrders(System.String)">
+            <summary>
+            Get all active orders for a portfolio.
+            </summary>
+            <param name="portfolioName">Portfolio name to filter active orders.</param>
+            <returns>Active orders for the specified portfolio.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetActiveOrders(StockSharp.Messages.SecurityId)">
+            <summary>
+            Get all active orders for a security.
+            </summary>
+            <param name="securityId">Security identifier to filter active orders.</param>
+            <returns>Active orders for the specified security.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetActiveOrders(System.String,System.Nullable{StockSharp.Messages.SecurityId},System.Nullable{StockSharp.Messages.Sides})">
+            <summary>
+            Get all active orders matching filter.
+            </summary>
+            <param name="portfolioName">Optional portfolio name filter.</param>
+            <param name="securityId">Optional security id filter.</param>
+            <param name="side">Optional side filter.</param>
+            <returns>Active orders matching the specified filters.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.GetExpiredOrders(System.DateTime)">
+            <summary>
+            Get orders that have expired as of the given time.
+            </summary>
+            <param name="currentTime">Time to check expirations against.</param>
+            <returns>Expired orders at the specified time.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.ProcessTime(System.DateTime)">
+            <summary>
+            Process time passage and return expired orders.
+            </summary>
+            <param name="currentTime">Current time to process expiries.</param>
+            <returns>Orders that expired during processing.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderLifecycleManager.Clear">
+            <summary>
+            Clear all orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.IOrderLifecycleManager.Count">
+            <summary>
+            Count of active orders.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.OrderLifecycleManager">
+            <summary>
+            Order lifecycle manager implementation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderLifecycleManager.Count">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.RegisterOrder(StockSharp.MatchingEngine.EmulatorOrder,System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetOrder(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.TryGetOrder(System.Int64,StockSharp.MatchingEngine.EmulatorOrder@)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.RemoveOrder(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.TryRemoveOrder(System.Int64,StockSharp.MatchingEngine.EmulatorOrder@)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetActiveOrders">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetActiveOrders(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetActiveOrders(StockSharp.Messages.SecurityId)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetActiveOrders(System.String,System.Nullable{StockSharp.Messages.SecurityId},System.Nullable{StockSharp.Messages.Sides})">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.GetExpiredOrders(System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.ProcessTime(System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderLifecycleManager.Clear">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchResult">
+            <summary>
+            Result of order matching.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.Order">
+            <summary>
+            Order that was matched.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.IsFullyMatched">
+            <summary>
+            Whether order was fully matched.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.HasTrades">
+            <summary>
+            Whether any trades were executed.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.RemainingVolume">
+            <summary>
+            Remaining volume after matching.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.Trades">
+            <summary>
+            List of trades executed.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.ShouldPlaceInBook">
+            <summary>
+            Whether order should be placed in order book.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.IsRejected">
+            <summary>
+            Whether order was rejected (e.g., post-only crossing).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.RejectionReason">
+            <summary>
+            Rejection reason if rejected.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.FinalState">
+            <summary>
+            Final order state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchResult.MatchedOrders">
+            <summary>
+            Orders that were matched against (for notification).
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchTrade">
+            <summary>
+            Trade resulting from order matching.
+            </summary>
+            <param name="Price">Price the trade was done at.</param>
+            <param name="Volume">Traded volume.</param>
+            <param name="InitiatorSide">Side of the order that initiated the trade.</param>
+            <param name="CounterFills">Volume this trade took from each resting order on the other side.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchTrade.#ctor(System.Decimal,System.Decimal,StockSharp.Messages.Sides,System.Collections.Generic.IReadOnlyList{StockSharp.MatchingEngine.MatchFill})">
+            <summary>
+            Trade resulting from order matching.
+            </summary>
+            <param name="Price">Price the trade was done at.</param>
+            <param name="Volume">Traded volume.</param>
+            <param name="InitiatorSide">Side of the order that initiated the trade.</param>
+            <param name="CounterFills">Volume this trade took from each resting order on the other side.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchTrade.Price">
+            <summary>Price the trade was done at.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchTrade.Volume">
+            <summary>Traded volume.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchTrade.InitiatorSide">
+            <summary>Side of the order that initiated the trade.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchTrade.CounterFills">
+            <summary>Volume this trade took from each resting order on the other side.</summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchingSettings">
+            <summary>
+            Settings for order matching.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.PriceStep">
+            <summary>
+            Price step of the security.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.VolumeStep">
+            <summary>
+            Volume step of the security.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.SpreadSize">
+            <summary>
+            Spread size in price steps.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.MaxDepth">
+            <summary>
+            Maximum depth of the order book.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.AllowMarketOrdersWithoutBook">
+            <summary>
+            Whether to match market orders at any price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingSettings.UseOrderPriceForLimitTrades">
+            <summary>
+            When true, use order price instead of market price for limit order trades.
+            This is used for candle-based matching.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IOrderMatcher">
+            <summary>
+            Interface for order matching logic.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderMatcher.Match(StockSharp.MatchingEngine.EmulatorOrder,StockSharp.MatchingEngine.IOrderBook,StockSharp.MatchingEngine.MatchingSettings)">
+            <summary>
+            Try to match an order against the order book.
+            </summary>
+            <param name="order">Order to match.</param>
+            <param name="book">Order book to match against.</param>
+            <param name="settings">Matching settings.</param>
+            <returns>Match result.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderMatcher.WouldCross(StockSharp.MatchingEngine.EmulatorOrder,StockSharp.MatchingEngine.IOrderBook)">
+            <summary>
+            Check if order would cross the book (for post-only validation).
+            </summary>
+            <param name="order">Order to check.</param>
+            <param name="book">Order book to check against.</param>
+            <returns>True if the order would cross the book, otherwise false.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IOrderMatcher.GetMarketPrice(StockSharp.Messages.Sides,StockSharp.MatchingEngine.IOrderBook)">
+            <summary>
+            Get the best execution price for a market order.
+            </summary>
+            <param name="side">Side of the market order (buy/sell).</param>
+            <param name="book">Order book to query.</param>
+            <returns>Best available price for the market order, or null if book is empty.</returns>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.StopOrderInfo">
+            <summary>
+            Stop order information.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.TransactionId">
+            <summary>
+            Transaction ID.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.SecurityId">
+            <summary>
+            Security ID.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.Side">
+            <summary>
+            Order side.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.Volume">
+            <summary>
+            Order volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.PortfolioName">
+            <summary>
+            Portfolio name.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.StopPrice">
+            <summary>
+            Stop activation price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.LimitPrice">
+            <summary>
+            Limit price for stop-limit orders. <see langword="null"/> means market order.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.IsTrailing">
+            <summary>
+            Whether this is a trailing stop.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.TrailingOffset">
+            <summary>
+            Trailing offset from extremum.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.BestSeenPrice">
+            <summary>
+            Best seen price for trailing stop (max for sell, min for buy).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.InvertTrigger">
+            <summary>
+            When <see langword="true"/>, trigger logic is inverted (TakeProfit mode):
+            Buy triggers when price &lt;= StopPrice, Sell triggers when price &gt;= StopPrice.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.IsLimitPricePercent">
+            <summary>
+            When <see langword="true"/>, <see cref="P:StockSharp.MatchingEngine.StopOrderInfo.LimitPrice"/> is a percent of <see cref="P:StockSharp.MatchingEngine.StopOrderInfo.StopPrice"/>;
+            the absolute limit price is computed at trigger time
+            (Buy: stop*(1+pct/100), Sell: stop*(1-pct/100)).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderInfo.IsTrailingOffsetPercent">
+            <summary>
+            When <see langword="true"/>, <see cref="P:StockSharp.MatchingEngine.StopOrderInfo.TrailingOffset"/> is a percent of the
+            high/low watermark; the stop price is recomputed on each tick as
+            Sell: high*(1-pct/100), Buy: low*(1+pct/100).
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.StopOrderTrigger">
+            <summary>
+            Triggered stop order result.
+            </summary>
+            <param name="Info">Stop order info.</param>
+            <param name="TriggerPrice">The price that triggered the stop.</param>
+            <param name="ResultingOrder">The order to submit to the matcher.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderTrigger.#ctor(StockSharp.MatchingEngine.StopOrderInfo,System.Decimal,StockSharp.Messages.OrderRegisterMessage)">
+            <summary>
+            Triggered stop order result.
+            </summary>
+            <param name="Info">Stop order info.</param>
+            <param name="TriggerPrice">The price that triggered the stop.</param>
+            <param name="ResultingOrder">The order to submit to the matcher.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderTrigger.Info">
+            <summary>Stop order info.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderTrigger.TriggerPrice">
+            <summary>The price that triggered the stop.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderTrigger.ResultingOrder">
+            <summary>The order to submit to the matcher.</summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.IStopOrderManager">
+            <summary>
+            Interface for managing stop orders.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.Register(StockSharp.MatchingEngine.StopOrderInfo)">
+            <summary>
+            Register a new stop order.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.Cancel(System.Int64,StockSharp.MatchingEngine.StopOrderInfo@)">
+            <summary>
+            Cancel a stop order.
+            </summary>
+            <param name="transactionId">Transaction ID of the stop order.</param>
+            <param name="info">Cancelled stop order info.</param>
+            <returns><see langword="true"/> if the stop order was found and cancelled.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.Replace(System.Int64,StockSharp.MatchingEngine.StopOrderInfo)">
+            <summary>
+            Atomically replace an existing stop order with a new one.
+            </summary>
+            <param name="origTransactionId">Transaction ID of the stop order to replace.</param>
+            <param name="newInfo">New stop order info.</param>
+            <returns><see langword="true"/> if the old stop order was found and replaced.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.CheckPrice(StockSharp.Messages.SecurityId,System.Decimal,System.DateTime)">
+            <summary>
+            Check price against all registered stop orders for the given security.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="price">Current market price.</param>
+            <param name="time">Current time.</param>
+            <returns>List of triggered stop orders with resulting orders to submit.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.GetStopIds(StockSharp.Messages.SecurityId)">
+            <summary>
+            Get the stop orders resting on the given security.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <returns>Transaction IDs of the stop orders registered for the security, empty when none rest on it.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.IStopOrderManager.Clear">
+            <summary>
+            Clear all stop orders.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MarginController">
+            <summary>
+            Default implementation of <see cref="T:StockSharp.MatchingEngine.IMarginController"/>.
+            Leverage is taken from <see cref="P:StockSharp.MatchingEngine.PositionInfo.Leverage"/> (default 1).
+            Margin call/stop-out levels are taken from <see cref="T:StockSharp.MatchingEngine.EmulatedPortfolio"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MarginController.GetRequiredMargin(System.Decimal,System.Decimal,StockSharp.MatchingEngine.PositionInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MarginController.ValidateOrder(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal,System.Decimal,StockSharp.MatchingEngine.PositionInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MarginController.CheckMarginLevel(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MarginController.IsMarginCall(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MarginController.IsStopOut(StockSharp.MatchingEngine.EmulatedPortfolio,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchFill">
+            <summary>
+            Volume one match took from a single resting order.
+            </summary>
+            <param name="Order">Resting order the volume was taken from.</param>
+            <param name="Volume">Volume taken from <paramref name="Order"/> by this match.</param>
+            <param name="Remaining">Volume left of <paramref name="Order"/> right after this match took its part.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchFill.#ctor(StockSharp.MatchingEngine.EmulatorOrder,System.Decimal,System.Decimal)">
+            <summary>
+            Volume one match took from a single resting order.
+            </summary>
+            <param name="Order">Resting order the volume was taken from.</param>
+            <param name="Volume">Volume taken from <paramref name="Order"/> by this match.</param>
+            <param name="Remaining">Volume left of <paramref name="Order"/> right after this match took its part.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchFill.Order">
+            <summary>Resting order the volume was taken from.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchFill.Volume">
+            <summary>Volume taken from <paramref name="Order"/> by this match.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchFill.Remaining">
+            <summary>Volume left of <paramref name="Order"/> right after this match took its part.</summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchingEngineAdapter">
+            <summary>
+            Message-based matching engine adapter.
+            Contains pure matching logic without emulation (no random, no candle matching, no commissions).
+            Implements <see cref="T:StockSharp.Messages.IMessageTransport"/> for message-based integration.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.Settings">
+            <summary>
+            Matching engine settings.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.OrderIdGenerator">
+            <summary>
+            Order ID generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.TradeIdGenerator">
+            <summary>
+            Trade ID generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.PortfolioManager">
+            <summary>
+            Portfolio manager for handling portfolio state.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.ForgetBook(StockSharp.Messages.SecurityId)">
+            <summary>
+            Forgets the book stated so far for <paramref name="securityId"/>, so an incremental feed has
+            to state a whole one again before its increments are folded in. Used when a venue has gone
+            quiet on depth: what it sends after the break describes a market its old base no longer holds.
+            </summary>
+            <param name="securityId">Security whose stated book is forgotten.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.Securities">
+            <summary>
+            Every security the venue has stated a definition for.
+            </summary>
+            <remarks>
+            The engine is told what an instrument is before anything is matched on it, so this is the
+            list of what the venue trades - and the answer to a client asking the same question.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.StopOrderManager">
+            <summary>
+            Stop order manager (read-only access).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineAdapter.TransactionIdGenerator">
+            <summary>
+            Transaction id generator for internal use (group cancel, close positions).
+            </summary>
+        </member>
+        <member name="E:StockSharp.MatchingEngine.MatchingEngineAdapter.NewOutMessageAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.GetSecurityState(StockSharp.Messages.SecurityId)">
+            <summary>
+            Get or create security state for the given security.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.StockSharp#Messages#IMessageTransport#SendInMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.ProcessMessage(StockSharp.Messages.Message,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Process a message and collect results. Can be called directly (without async dispatch).
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.AdoptActiveOrder(StockSharp.Messages.ExecutionMessage,StockSharp.Messages.Sides,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Takes an order that is already standing somewhere else into this book, exactly as it is.
+            </summary>
+            <remarks>
+            Nothing is reported back: the order was not registered here, so there is no request to
+            answer, and an owner that receives a registration report for an order it has held for hours
+            would reasonably treat it as a new one. Margin is reserved for what is left of it, because
+            the account is carrying that exposure whether or not this process was running when it was
+            placed. An identity already in the book is left alone rather than duplicated - being told
+            twice about the same order is ordinary, and the second telling must change nothing.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.ProcessOrderRegister(StockSharp.Messages.OrderRegisterMessage,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Process order registration.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.ProcessOrderCancel(StockSharp.Messages.OrderCancelMessage,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Process order cancellation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.NameAccountOn(System.Collections.Generic.List{StockSharp.Messages.Message},System.Int32,StockSharp.Messages.OrderRegisterMessage)">
+            <summary>
+            States the account and the instrument on each transactional row from <paramref name="from"/>
+            onwards that is missing them.
+            </summary>
+            <remarks>
+            An order the engine materialised on its own behalf crossed no caller on its way in, so no
+            map anywhere holds the account to put back on its rows afterwards - unattributed, they are
+            booked against nobody.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.CheckStopOrders(StockSharp.Messages.SecurityId,System.Decimal,System.DateTime,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Check stop orders against a price and process triggered orders.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.ValidateRegistration(StockSharp.Messages.OrderRegisterMessage,System.Nullable{System.Decimal})">
+            <summary>
+            Check whether the registration is allowed: the instrument is trading, and the account can
+            afford it.
+            </summary>
+            <param name="regMsg">Registration to check.</param>
+            <param name="chargedPrice">Price the order will actually be charged at, or <see langword="null"/> when it cannot be priced.</param>
+            <returns>The reason the registration must be refused, or <see langword="null"/> when it is allowed.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.GetChargedPrice(StockSharp.Messages.OrderRegisterMessage,StockSharp.MatchingEngine.SecurityState)">
+            <summary>
+            Price the order will be charged at: its own price when it names one, the opposite best for a market order.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchingEngineAdapter.BookMarkPrices">
+            <summary>
+            The engine's own books, read as the price an open position could be closed at.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.BookMarkPrices.#ctor(StockSharp.MatchingEngine.MatchingEngineAdapter)">
+            <summary>
+            The engine's own books, read as the price an open position could be closed at.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.CreatePortfolioUpdate(StockSharp.MatchingEngine.EmulatedPortfolio,System.DateTime)">
+            <summary>
+            The money row stating what an account holds: its realized and unrealized result, what its
+            working orders hold, and what it can trade with now.
+            </summary>
+            <param name="portfolio">The account the row is about.</param>
+            <param name="time">Time to stamp the row with.</param>
+            <returns>The row.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.MatchingEngineAdapter.SendOutMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <summary>
+            Send out message.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.MatchingEngineSettings">
+            <summary>
+            Settings for <see cref="T:StockSharp.MatchingEngine.MatchingEngineAdapter"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineSettings.CheckMoney">
+            <summary>
+            Check money balance before order registration.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineSettings.CheckTradingState">
+            <summary>
+            Check trading state (session hours).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineSettings.InitialOrderId">
+            <summary>
+            The number, starting at which identifiers for orders will be generated.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineSettings.InitialTradeId">
+            <summary>
+            The number, starting at which identifiers for trades will be generated.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.MatchingEngineSettings.IncreaseDepthVolume">
+            <summary>
+            Extend the book past its worst level when an order asks for more volume than the market
+            holds, so that the order can be filled in full.
+            </summary>
+            <remarks>
+            The levels this adds were never quoted by anyone: it is emulation, for replaying history
+            where an order has to go through whatever the record shows. A venue matching real orders
+            leaves it off, and an order larger than the market is filled by as much market as there is.
+            </remarks>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.NoMarkPrices">
+            <summary>
+            Prices for a portfolio with no market behind it: nothing is quoted, so every position is worth
+            what it cost.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.NoMarkPrices.Instance">
+            <summary>The single instance.</summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.NoMarkPrices.TryGetClosePrice(StockSharp.Messages.SecurityId,StockSharp.Messages.Sides)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.MatchingEngine.OrderBookLevelImpl">
+            <summary>
+            Order book level containing orders.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBookLevelImpl.#ctor(System.Decimal)">
+            <summary>
+            Order book level containing orders.
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.OrderBook">
+            <summary>
+            Order book implementation.
+            </summary>
+            <remarks>
+            Create a new order book.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Order book implementation.
+            </summary>
+            <remarks>
+            Create a new order book.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.SecurityId">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.BestBid">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.BestAsk">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.TotalBidVolume">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.TotalAskVolume">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.BidLevels">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.OrderBook.AskLevels">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetWorstBid">
+            <summary>
+            Get worst (lowest) bid level.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetWorstAsk">
+            <summary>
+            Get worst (highest) ask level.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.AddQuote(StockSharp.MatchingEngine.EmulatorOrder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.RemoveQuote(System.Int64,StockSharp.Messages.Sides,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.UpdateLevel(StockSharp.Messages.Sides,System.Decimal,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.RemoveLevel(StockSharp.Messages.Sides,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetLevels(StockSharp.Messages.Sides)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetVolumeAtPrice(StockSharp.Messages.Sides,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetOrdersAtPrice(StockSharp.Messages.Sides,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.HasLevel(StockSharp.Messages.Sides,System.Decimal)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.Clear(StockSharp.Messages.Sides)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.SetSnapshot(System.Collections.Generic.IEnumerable{StockSharp.Messages.QuoteChange},System.Collections.Generic.IEnumerable{StockSharp.Messages.QuoteChange})">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.ToMessage(System.DateTime,System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.GetTotalVolume(StockSharp.Messages.Sides)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.TryRemoveOrder(System.Int64,StockSharp.Messages.Sides,StockSharp.MatchingEngine.EmulatorOrder@)">
+            <summary>
+            Find and remove order by transaction ID from any level.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderBook.ConsumeVolume(StockSharp.Messages.Sides,System.Nullable{System.Decimal},System.Decimal)">
+            <summary>
+            Consume volume from best levels (for matching).
+            </summary>
+            <param name="side">Side to consume from (opposite to order side).</param>
+            <param name="maxPrice">Maximum price for buy / minimum for sell.</param>
+            <param name="volume">Volume to consume.</param>
+            <returns>Executions (price, volume, volume taken from each resting order).</returns>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.OrderMatcher">
+            <summary>
+            Order matcher implementation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderMatcher.Match(StockSharp.MatchingEngine.EmulatorOrder,StockSharp.MatchingEngine.IOrderBook,StockSharp.MatchingEngine.MatchingSettings)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderMatcher.WouldCross(StockSharp.MatchingEngine.EmulatorOrder,StockSharp.MatchingEngine.IOrderBook)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.OrderMatcher.GetMarketPrice(StockSharp.Messages.Sides,StockSharp.MatchingEngine.IOrderBook)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.MatchingEngine.PositionInfo">
+            <summary>
+            Position information for a security.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.PositionInfo.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Position information for a security.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.SecurityId">
+            <summary>
+            Security ID.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.BeginValue">
+            <summary>
+            Begin value (initial position).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.Diff">
+            <summary>
+            Position change since begin.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.CurrentValue">
+            <summary>
+            Current position value.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.AveragePrice">
+            <summary>
+            Average entry price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.TotalBidsVolume">
+            <summary>
+            Total volume of active buy orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.TotalAsksVolume">
+            <summary>
+            Total volume of active sell orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.TotalBidsValue">
+            <summary>
+            Total value of active buy orders (volume * price).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.TotalAsksValue">
+            <summary>
+            Total value of active sell orders (volume * price).
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.PositionInfo.Leverage">
+            <summary>
+            Margin leverage for this position. Null means default (1x).
+            </summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.SecurityState">
+            <summary>
+            Per-security state for matching engine.
+            Contains order book, order manager, and security definition.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Per-security state for matching engine.
+            Contains order book, order manager, and security definition.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.SecurityId">
+            <summary>
+            Security identifier.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.OrderBook">
+            <summary>
+            Order book for this security.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.OrderManager">
+            <summary>
+            Active order manager.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.PriceStep">
+            <summary>
+            Price step from security definition or auto-detected.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.VolumeStep">
+            <summary>
+            Volume step from security definition or auto-detected.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.HasDepthSubscription">
+            <summary>
+            Whether depth subscription is active.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.TradingState">
+            <summary>
+            Trading state as the venue last stated it, or <see langword="null"/> when it never has.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.SecurityState.Definition">
+            <summary>
+            The definition the venue stated for this security, or <see langword="null"/> when it has
+            stated none. What the engine matches against is derived from it; whoever has to answer what
+            the venue lists reads it here rather than keeping a second copy.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.ProcessSecurity(StockSharp.Messages.SecurityMessage)">
+            <summary>
+            Process security definition message.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.ProcessTradingState(StockSharp.Messages.SecurityStates)">
+            <summary>
+            Record the trading state the venue reports for this security.
+            </summary>
+            <param name="state">Trading state.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.ProcessQuoteChange(StockSharp.Messages.QuoteChangeMessage,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Process quote change (snapshot) — update order book.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.ForgetBook">
+            <summary>
+            Forgets the book stated so far, so an incremental feed has to state a whole one again before
+            its increments mean anything. What the engine currently holds is left standing.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.ProcessMarketData(StockSharp.Messages.MarketDataMessage)">
+            <summary>
+            Process market data subscriptions (depth only).
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.SecurityState.UpdateSteps(System.Decimal,System.Nullable{System.Decimal})">
+            <summary>
+            Takes the steps from what the market quotes, for an instrument whose venue never stated them.
+            </summary>
+            <param name="price">Quoted price.</param>
+            <param name="volume">Quoted volume.</param>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.StopOrderCondition">
+            <summary>
+            Stop order condition for matching engine.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.ActivationPrice">
+            <summary>
+            Stop activation price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.ClosePositionPrice">
+            <summary>
+            Close position price. <see langword="null"/> means close by market.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.IsTrailing">
+            <summary>
+            Trailing stop flag.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.TrailingOffset">
+            <summary>
+            Trailing stop offset from extremum.
+            </summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.IsActivationPricePercent">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.IsClosePositionPricePercent">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.MatchingEngine.StopOrderCondition.IsTrailingOffsetPercent">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.MatchingEngine.StopOrderManager">
+            <summary>
+            Stop order manager implementation.
+            </summary>
+            <remarks>
+            Thread-safe. The server drives a single instance concurrently — Register / Cancel / Replace run
+            on the order-command path while CheckPrice runs on the feeder tick pump — so every operation is
+            serialized under one lock. Without it a register racing a check corrupts the per-security index
+            (lost stops / index-out-of-range) and two concurrent checks double-trigger the same stop.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.Register(StockSharp.MatchingEngine.StopOrderInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.Cancel(System.Int64,StockSharp.MatchingEngine.StopOrderInfo@)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.Replace(System.Int64,StockSharp.MatchingEngine.StopOrderInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.CheckPrice(StockSharp.Messages.SecurityId,System.Decimal,System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.GetStopIds(StockSharp.Messages.SecurityId)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.MatchingEngine.StopOrderManager.CreateResultingOrder(StockSharp.MatchingEngine.StopOrderInfo,System.DateTime)">
+            <summary>
+            Builds the order a stop places when it fires: a limit order at the price its condition asks
+            for, resolving a percentage against the level it fired at, or a market order when it names no
+            price at all.
+            </summary>
+            <param name="info">The stop that fired.</param>
+            <param name="time">When it fired.</param>
+            <returns>The order to place.</returns>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.TradeProcessingResult">
+            <summary>
+            Result of trade processing.
+            </summary>
+            <param name="RealizedPnL">Realized PnL from the trade.</param>
+            <param name="PositionChange">Position change amount.</param>
+            <param name="Position">Updated position info.</param>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.TradeProcessingResult.#ctor(System.Decimal,System.Decimal,StockSharp.MatchingEngine.PositionInfo)">
+            <summary>
+            Result of trade processing.
+            </summary>
+            <param name="RealizedPnL">Realized PnL from the trade.</param>
+            <param name="PositionChange">Position change amount.</param>
+            <param name="Position">Updated position info.</param>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.TradeProcessingResult.RealizedPnL">
+            <summary>Realized PnL from the trade.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.TradeProcessingResult.PositionChange">
+            <summary>Position change amount.</summary>
+        </member>
+        <member name="P:StockSharp.MatchingEngine.TradeProcessingResult.Position">
+            <summary>Updated position info.</summary>
+        </member>
+        <member name="T:StockSharp.MatchingEngine.TrailingStopPriceCalculator">
+            <summary>
+            Converts between a trailing stop's market-price watermark and stop price.
+            </summary>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.TrailingStopPriceCalculator.IsPercentOffsetReachable(System.Decimal,StockSharp.Messages.Sides)">
+            <summary>
+            Whether a percentage trailing offset can produce a stop price the market is able to reach.
+            </summary>
+            <param name="offset">Trailing distance, as a percentage of the watermark.</param>
+            <param name="side">Stop order side.</param>
+            <returns><see langword="true"/> when the offset yields a reachable stop price.</returns>
+            <remarks>
+            A sell trails below its watermark, so at 100 percent its stop is zero and beyond that negative.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.TrailingStopPriceCalculator.InitialWatermark(System.Decimal,System.Nullable{System.Decimal},System.Boolean,StockSharp.Messages.Sides)">
+            <summary>
+            The watermark a trailing stop starts from, before it has seen any price.
+            </summary>
+            <remarks>
+            Taking the one its level implies keeps the first price seen from walking the stop away from it.
+            </remarks>
+            <param name="stopPrice">Level the stop was registered at.</param>
+            <param name="offset">Trailing distance. A <see langword="null"/> value is treated as zero.</param>
+            <param name="isPercent">Whether <paramref name="offset"/> is a percentage of the watermark.</param>
+            <param name="side">Stop order side.</param>
+            <returns>The implied watermark, or <see langword="null"/> when the level implies none.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.TrailingStopPriceCalculator.CalculateStopPrice(System.Decimal,System.Nullable{System.Decimal},System.Boolean,StockSharp.Messages.Sides)">
+            <summary>
+            Calculates the stop price for a market-price watermark.
+            </summary>
+            <param name="watermark">Best market price seen by the trailing stop.</param>
+            <param name="offset">Trailing distance. A <see langword="null"/> value is treated as zero.</param>
+            <param name="isPercent">Whether <paramref name="offset"/> is a percentage of the watermark.</param>
+            <param name="side">Stop order side.</param>
+            <returns>The stop price corresponding to the watermark.</returns>
+        </member>
+        <member name="M:StockSharp.MatchingEngine.TrailingStopPriceCalculator.ReconstructWatermark(System.Decimal,System.Nullable{System.Decimal},System.Boolean,StockSharp.Messages.Sides)">
+            <summary>
+            Reconstructs the market-price watermark from a persisted stop price.
+            </summary>
+            <param name="stopPrice">Persisted stop price.</param>
+            <param name="offset">Trailing distance. A <see langword="null"/> value is treated as zero.</param>
+            <param name="isPercent">Whether <paramref name="offset"/> is a percentage of the watermark.</param>
+            <param name="side">Stop order side.</param>
+            <returns>The reconstructed watermark.</returns>
+            <remarks>
+            At a 100% offset for a sell the forward map sends every watermark to zero and has no inverse,
+            so the level is returned unchanged.
+            </remarks>
+        </member>
+    </members>
+</doc>

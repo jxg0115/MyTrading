@@ -1,0 +1,1662 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockSharp.Charting.Interfaces</name>
+    </assembly>
+    <members>
+        <member name="T:StockSharp.Charting.AnnotationCoordinateMode">
+            <summary>
+            Enumeration constants to define the Coordinate mode used to place an annotation.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute">
+            <summary>
+            Absolute, requires that coordinates X1,Y1,X2,Y2 are data-values.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.AnnotationCoordinateMode.Relative">
+            <summary>
+            Relative, requires that coordinates X1,Y1,X2,Y2 are double values between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeX">
+            <summary>
+            RelativeX, requires that coordinates X1,X2 are double values between 0.0 and 1.0, whereas Y1,Y2 are data-values.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeY">
+            <summary>
+            RelativeY, requires that coordinates Y1,Y2 are double values between 0.0 and 1.0, whereas X1,X2 are data-values.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.ChartAnnotationTypes">
+            <summary>
+            The annotations types.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.LineAnnotation">
+            <summary>
+            Line.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.LineArrowAnnotation">
+            <summary>
+            Pointer.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.TextAnnotation">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.BoxAnnotation">
+            <summary>
+            Area.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.HorizontalLineAnnotation">
+            <summary>
+            Horizontal line.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.VerticalLineAnnotation">
+            <summary>
+            Vertical line.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAnnotationTypes.RulerAnnotation">
+            <summary>
+            Ruler.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.ChartAxisType">
+            <summary>
+            Chart axes types.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAxisType.DateTime">
+            <summary>
+            Time.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAxisType.CategoryDateTime">
+            <summary>
+            Time without breaks.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartAxisType.Numeric">
+            <summary>
+            Number.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.ChartCandleDrawData">
+            <summary>
+            Candle data prepared for chart drawing.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.ChartCandleDrawData.#ctor(StockSharp.Messages.DataType,StockSharp.Messages.SecurityId,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.CandlePriceLevel[],StockSharp.Messages.CandleStates)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Charting.ChartCandleDrawData"/>.
+            </summary>
+            <param name="dataType"><see cref="T:StockSharp.Messages.DataType"/>.</param>
+            <param name="securityId"><see cref="T:StockSharp.Messages.SecurityId"/>.</param>
+            <param name="openPrice">Opening price.</param>
+            <param name="highPrice">Highest price.</param>
+            <param name="lowPrice">Lowest price.</param>
+            <param name="closePrice">Closing price.</param>
+            <param name="totalVolume">Total candle volume.</param>
+            <param name="priceLevels">Price levels.</param>
+            <param name="state">Candle state.</param>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.DataType">
+            <summary>
+            <see cref="T:StockSharp.Messages.DataType"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.SecurityId">
+            <summary>
+            <see cref="T:StockSharp.Messages.SecurityId"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.OpenPrice">
+            <summary>
+            Opening price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.HighPrice">
+            <summary>
+            Highest price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.LowPrice">
+            <summary>
+            Lowest price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.ClosePrice">
+            <summary>
+            Closing price.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.TotalVolume">
+            <summary>
+            Total candle volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.PriceLevels">
+            <summary>
+            Price levels.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.ChartCandleDrawData.State">
+            <summary>
+            Candle state.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.ChartCandleDrawStyles">
+            <summary>
+            Styles of the candles chart drawing.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.CandleStick">
+            <summary>
+            Japanese candles.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.Ohlc">
+            <summary>
+            Bars.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.LineOpen">
+            <summary>
+            Line (open).
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.LineHigh">
+            <summary>
+            Line (high).
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.LineLow">
+            <summary>
+            Line (low).
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.LineClose">
+            <summary>
+            Line (close).
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.BoxVolume">
+            <summary>
+            Box volumes.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.ClusterProfile">
+            <summary>
+            Cluster profile.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.Area">
+            <summary>
+            Area.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartCandleDrawStyles.PnF">
+            <summary>
+            X0 candle.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.ChartingInterfacesExtensions">
+            <summary>
+            Extension class for <see cref="T:StockSharp.Charting.IChart"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.Draw(StockSharp.Charting.IChart,StockSharp.Charting.IChartCandleElement,StockSharp.Messages.ICandleMessage)">
+            <summary>
+            To draw the candle.
+            </summary>
+            <param name="chart">Chart.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="candle">Candle.</param>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.IsVolumeProfileChart(StockSharp.Charting.ChartCandleDrawStyles)">
+            <summary>
+            Check the specified style is volume profile based.
+            </summary>
+            <param name="style">Style.</param>
+            <returns>Check result.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.AddArea(StockSharp.Charting.IChart)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartArea"/>.
+            </summary>
+            <param name="chart"><see cref="T:StockSharp.Charting.IChart"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartArea"/></returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.AddCandles(StockSharp.Charting.IChartArea)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartCandleElement"/> element.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartCandleElement"/></returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.AddTrades(StockSharp.Charting.IChartArea)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartTradeElement"/> element.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartTradeElement"/></returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.AddOrders(StockSharp.Charting.IChartArea)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartOrderElement"/> element.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartOrderElement"/></returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.AddIndicator(StockSharp.Charting.IChartArea,StockSharp.Algo.Indicators.IIndicator)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartIndicatorElement"/> element.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <param name="indicator"><see cref="T:StockSharp.Algo.Indicators.IIndicator"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartIndicatorElement"/></returns>
+        </member>
+        <member name="M:StockSharp.Charting.ChartingInterfacesExtensions.CreatePainter(StockSharp.Algo.Indicators.IndicatorType)">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartIndicatorPainter"/> instance.
+            </summary>
+            <param name="type"><see cref="T:StockSharp.Algo.Indicators.IndicatorType"/></param>
+            <returns><see cref="T:StockSharp.Charting.IChartIndicatorPainter"/></returns>
+        </member>
+        <member name="T:StockSharp.Charting.ChartOrderDisplayFilter">
+            <summary>
+            Orders display filter.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartOrderDisplayFilter.All">
+            <summary>All orders.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartOrderDisplayFilter.ErrorsOnly">
+            <summary>Orders with errors.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.ChartOrderDisplayFilter.NoErrorsOnly">
+            <summary>Orders with no errors.</summary>
+        </member>
+        <member name="T:StockSharp.Charting.DummyChartBuilder">
+            <summary>
+            Dummy implementation of <see cref="T:StockSharp.Charting.IChartBuilder"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IAnnotationData">
+            <summary>
+            Used to transfer annotation draw data.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.IsVisible">
+            <summary>Show/hide annotation.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.IsEditable">
+            <summary>Whether user can edit annotation.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.X1">
+            <summary>
+            X1 coordinate for annotation drawing.
+            <see cref="T:System.DateTime"/> for coordinate mode <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute"/> or <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeY"/>.
+            <see cref="T:System.Double"/> otherwise.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Y1">
+            <summary>
+            Y1 coordinate for annotation drawing.
+            <see cref="T:System.Decimal"/> for coordinate mode <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute"/> or <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeX"/>.
+            <see cref="T:System.Double"/> otherwise.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.X2">
+            <summary>
+            X2 coordinate for annotation drawing.
+            <see cref="T:System.DateTime"/> for coordinate mode <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute"/> or <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeY"/>.
+            <see cref="T:System.Double"/> otherwise.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Y2">
+            <summary>
+            Y2 coordinate for annotation drawing.
+            <see cref="T:System.Decimal"/> for coordinate mode <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute"/> or <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.RelativeX"/>.
+            <see cref="T:System.Double"/> otherwise.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Stroke">
+            <summary>Brush to draw lines and borders.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Fill">
+            <summary>Brush to fill background.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Foreground">
+            <summary>Text color.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Thickness">
+            <summary>Line thickness.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.ShowLabel">
+            <summary>Turn on/off label show for horizontal and vertical lines.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.LabelPlacement">
+            <summary>Label placement for horizontal and vertical lines.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.HorizontalAlignment">
+            <summary>Alignment for horizontal lines.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.VerticalAlignment">
+            <summary>Alignment for vertical lines.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.CoordinateMode">
+            <summary>
+            Coordinate mode.
+            <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Absolute"/> means <see cref="T:System.DateTime"/> for X and <see cref="T:System.Decimal"/> price for Y.
+            <see cref="F:StockSharp.Charting.AnnotationCoordinateMode.Relative"/> means relative to the screen edges: double. 0=top/left, 0.5=center, 1=bottom/right
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IAnnotationData.Text">
+            <summary>Text for text annotation.</summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChart">
+            <summary>
+            Interface for working with charts.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.Areas">
+            <summary>
+            Chart areas.
+            </summary>
+        </member>
+        <member name="E:StockSharp.Charting.IChart.AreaAdded">
+            <summary>
+            <see cref="P:StockSharp.Charting.IChart.Areas"/> added event.
+            </summary>
+        </member>
+        <member name="E:StockSharp.Charting.IChart.AreaRemoved">
+            <summary>
+            <see cref="P:StockSharp.Charting.IChart.Areas"/> removed event.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.IsAutoScroll">
+            <summary>
+            To scroll <see cref="P:StockSharp.Charting.IChart.Areas"/> areas automatically when new data occurred. The default is enabled.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.IsAutoRange">
+            <summary>
+            To use automatic range for the X-axis. The default is off.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.IndicatorTypes">
+            <summary>
+            The list of available indicators types.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.ShowNonFormedIndicators">
+            <summary>
+            Show non formed indicators values.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.ShowPerfStats">
+            <summary>
+            Show FPS.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.ShowLegend">
+            <summary>
+            To show the legend.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.ShowOverview">
+            <summary>
+            To show the preview area.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.IsInteracted">
+            <summary>
+            The interactive mode. The default is off.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.CrossHair">
+            <summary>
+            Crosshair.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.CrossHairTooltip">
+            <summary>
+            To show the prompt message for the crosshair.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.CrossHairAxisLabels">
+            <summary>
+            To show values on the axis for the crosshair.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.OrderCreationMode">
+            <summary>
+            The order creation mode. The default is off.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChart.TimeZone">
+            <summary>
+            Local time zone for all <see cref="T:System.DateTime"/> values conversion.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.AddArea(StockSharp.Charting.IChartArea)">
+            <summary>
+            To add an area to the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.RemoveArea(StockSharp.Charting.IChartArea)">
+            <summary>
+            To remove the area from the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.AddElement(StockSharp.Charting.IChartArea,StockSharp.Charting.IChartElement)">
+            <summary>
+            To add an element to the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+            <param name="element">The chart element.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.AddElement(StockSharp.Charting.IChartArea,StockSharp.Charting.IChartCandleElement,StockSharp.BusinessEntities.Subscription)">
+            <summary>
+            To add a candle element to the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+            <param name="element">The candle chart element.</param>
+            <param name="subscription">Subscription.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.AddElement(StockSharp.Charting.IChartArea,StockSharp.Charting.IChartIndicatorElement,StockSharp.BusinessEntities.Subscription,StockSharp.Algo.Indicators.IIndicator)">
+            <summary>
+            To add an indicator element to the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+            <param name="element">The indicator chart element.</param>
+            <param name="subscription">Subscription.</param>
+            <param name="indicator">Indicator.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.RemoveElement(StockSharp.Charting.IChartArea,StockSharp.Charting.IChartElement)">
+            <summary>
+            To remove the element from the chart.
+            </summary>
+            <param name="area">Chart area.</param>
+            <param name="element">The chart element.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChart.Reset(System.Collections.Generic.IEnumerable{StockSharp.Charting.IChartElement})">
+            <summary>
+            To reset the chart elements values drawn previously.
+            </summary>
+            <param name="elements">Chart elements.</param>
+        </member>
+        <member name="T:StockSharp.Charting.IChartActiveOrdersElement">
+            <summary>
+            The chart element representing active orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.BuyPendingColor">
+            <summary>
+            Color of Buy order in non-active state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.BuyColor">
+            <summary>
+            Color of Buy order in active state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.BuyBlinkColor">
+            <summary>
+            Color of blinking in partially filled state (Buy).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.SellPendingColor">
+            <summary>
+            Color of Sell order in non-active state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.SellColor">
+            <summary>
+            Color of Sell order in active state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.SellBlinkColor">
+            <summary>
+            Color of blinking in partially filled state (Sell).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.CancelButtonColor">
+            <summary>
+            Cancel order button color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.CancelButtonBackground">
+            <summary>
+            Cancel order button background color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.ForegroundColor">
+            <summary>
+            Text color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartActiveOrdersElement.IsAnimationEnabled">
+            <summary>
+            Whether animation is enabled.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartAnnotationElement">
+            <summary>
+            Annotation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAnnotationElement.Type">
+            <summary>
+            Annotation type.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartArea">
+            <summary>
+            Chart area.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.Elements">
+            <summary>
+            Area elements (<see cref="T:StockSharp.Charting.IChartIndicatorElement"/>, <see cref="T:StockSharp.Charting.IChartCandleElement"/>, etc.).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.XAxises">
+            <summary>
+            The list of horizontal axes.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.YAxises">
+            <summary>
+            The list of vertical axes.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.XAxisType">
+            <summary>
+            Type of X axis for this chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.Title">
+            <summary>
+            Chart area name.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.Height">
+            <summary>
+            The height of the area.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.Chart">
+            <summary>
+            Chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartArea.GroupId">
+            <summary>
+            Chart group name.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartAxis">
+            <summary>
+            The chart axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.ChartArea">
+            <summary>
+            Chart area.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.Id">
+            <summary>
+            Unique ID.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.IsVisible">
+            <summary>
+            Axis visibility.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.Title">
+            <summary>
+            Header.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.Group">
+            <summary>
+            Group.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.SwitchAxisLocation">
+            <summary>
+            Whether to use alternative axis alignment.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.AxisType">
+            <summary>
+            Axis type.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.AutoRange">
+            <summary>
+            Auto range.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.FlipCoordinates">
+            <summary>
+            Flip coordinates.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.DrawMajorTicks">
+            <summary>
+            Show main grid lines on the axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.DrawMajorGridLines">
+            <summary>
+            Show main grid lines.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.DrawMinorTicks">
+            <summary>
+            Show extra grid lines on the axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.DrawMinorGridLines">
+            <summary>
+            Show extra grid lines.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.DrawLabels">
+            <summary>
+            Show labels on the axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.TextFormatting">
+            <summary>
+            Labels format.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.CursorTextFormatting">
+            <summary>
+            Cursor labels format.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.SubDayTextFormatting">
+            <summary>
+            The format of X-axis labels within the day.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartAxis.TimeZone">
+            <summary>
+            Time zone for this axis.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartBandElement">
+            <summary>
+            The chart element representing a band.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartBandElement.Style">
+            <summary>
+            The band drawing style. The default is <see cref="F:Ecng.Drawing.DrawStyles.Band"/>. Can also be <see cref="F:Ecng.Drawing.DrawStyles.BandOneValue"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartBandElement.Line1">
+            <summary>
+            <see cref="P:StockSharp.Charting.IChartBandElement.Line1"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartBandElement.Line2">
+            <summary>
+            <see cref="P:StockSharp.Charting.IChartBandElement.Line2"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartBuilder">
+            <summary>
+            The interface for build chart parts.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateArea">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartArea"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartArea"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateAxis">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartAxis"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartAxis"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateCandleElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartCandleElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartCandleElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateIndicatorElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartIndicatorElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartIndicatorElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateActiveOrdersElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartActiveOrdersElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartActiveOrdersElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateAnnotation">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartAnnotationElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartAnnotationElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateBandElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartBandElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartBandElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateLineElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartLineElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartLineElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateBubbleElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartLineElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartLineElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateOrderElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartOrderElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartOrderElement"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartBuilder.CreateTradeElement">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartTradeElement"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartTradeElement"/> instance.</returns>
+        </member>
+        <member name="T:StockSharp.Charting.IChartCandleDrawDataItem">
+            <summary>
+            Chart drawing data item capable of receiving complete candle data.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartCandleDrawDataItem.Add(StockSharp.Charting.IChartCandleElement,StockSharp.Charting.ChartCandleDrawData)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="data">Candle data.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="T:StockSharp.Charting.IChartCandleElement">
+            <summary>
+            The chart element representing a candle.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.DrawStyle">
+            <summary>
+            Style of candles rendering.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.DownFillColor">
+            <summary>
+            Body color of decreasing candle.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.UpFillColor">
+            <summary>
+            Body color of increasing candle.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.DownBorderColor">
+            <summary>
+            Border color of decreasing candle.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.UpBorderColor">
+            <summary>
+            Border color of increasing candle.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.StrokeThickness">
+            <summary>
+            Line width (bar or border), with which candle will be drawn on chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.AntiAliasing">
+            <summary>
+            Candles rendering smoothing (enabled by default).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.LineColor">
+            <summary>
+            Line color for <see cref="P:StockSharp.Charting.IChartCandleElement.DrawStyle"/> Line*.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.AreaColor">
+            <summary>
+            Area color for <see cref="P:StockSharp.Charting.IChartCandleElement.DrawStyle"/> set as <see cref="F:StockSharp.Charting.ChartCandleDrawStyles.Area"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ShowAxisMarker">
+            <summary>
+            Show Y-axis marker.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Colorer">
+            <summary>
+            Custom elements colorer.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Timeframe2Multiplier">
+            <summary>
+            Timeframe #2 multiplier.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Timeframe3Multiplier">
+            <summary>
+            Timeframe #3 multiplier.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.FontColor">
+            <summary>
+            Font color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Timeframe2Color">
+            <summary>
+            Timeframe #2 color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Timeframe2FrameColor">
+            <summary>
+            Timeframe #2 frame color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.Timeframe3Color">
+            <summary>
+            Timeframe #3 color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.MaxVolumeColor">
+            <summary>
+            Max volume color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ClusterLineColor">
+            <summary>
+            Cluster profile line color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ClusterSeparatorLineColor">
+            <summary>
+            Cluster profile separator line color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ClusterTextColor">
+            <summary>
+            Cluster text color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ClusterColor">
+            <summary>
+            Cluster color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ClusterMaxColor">
+            <summary>
+            Cluster max color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.ShowHorizontalVolumes">
+            <summary>
+            Show horizontal volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.LocalHorizontalVolumes">
+            <summary>
+            Local horizontal volume.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.HorizontalVolumeWidthFraction">
+            <summary>
+            Horizontal volume width fraction.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.HorizontalVolumeColor">
+            <summary>
+            Horizontal volume color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.HorizontalVolumeFontColor">
+            <summary>
+            Horizontal volume font color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.PriceStep">
+            <summary>
+            Price step for group volumes. <see langword="null"/> means no grouping.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.DrawSeparateVolumes">
+            <summary>
+            Draw <see cref="F:StockSharp.Messages.Sides.Buy"/> and <see cref="F:StockSharp.Messages.Sides.Sell"/> volumes separately.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.BuyColor">
+            <summary>
+            Buy volume color.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartCandleElement.SellColor">
+            <summary>
+            Sell volume color.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartDrawData">
+            <summary>
+            Chart drawing data.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem">
+            <summary>
+            Chart drawing data item.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartCandleElement,System.Nullable{System.Drawing.Color})">
+            <summary>
+            Put candle color data.
+            </summary>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="color">Candle draw color.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartCandleElement,StockSharp.Messages.DataType,StockSharp.Messages.SecurityId,System.Decimal,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.CandlePriceLevel[],StockSharp.Messages.CandleStates)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="dataType"><see cref="T:StockSharp.Messages.DataType"/>.</param>
+            <param name="secId"><see cref="T:StockSharp.Messages.SecurityId"/>.</param>
+            <param name="openPrice">Opening price.</param>
+            <param name="highPrice">Highest price.</param>
+            <param name="lowPrice">Lowest price.</param>
+            <param name="closePrice">Closing price.</param>
+            <param name="priceLevels">Price levels.</param>
+            <param name="state">Candle state.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartIndicatorElement,StockSharp.Algo.Indicators.IIndicatorValue)">
+            <summary>
+            Put the indicator data.
+            </summary>
+            <param name="element">The chart element representing the indicator.</param>
+            <param name="value">The indicator value.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartOrderElement,System.Int64,System.String,StockSharp.Messages.Sides,System.Decimal,System.Decimal,System.String)">
+            <summary>
+            Put the order data.
+            </summary>
+            <param name="element">The chart element representing orders.</param>
+            <param name="orderId">Order ID.</param>
+            <param name="orderStringId">Order ID (as string, if electronic board does not use numeric order ID representation).</param>
+            <param name="side">Order side (buy or sell).</param>
+            <param name="price">Order price.</param>
+            <param name="volume">Number of contracts in the order.</param>
+            <param name="errorMessage">Error registering/cancelling order.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartTradeElement,System.Int64,System.String,StockSharp.Messages.Sides,System.Decimal,System.Decimal)">
+            <summary>
+            Put the trade data.
+            </summary>
+            <param name="element">The chart element representing trades.</param>
+            <param name="tradeId">Trade ID.</param>
+            <param name="tradeStringId">Trade ID (as string, if electronic board does not use numeric order ID representation).</param>
+            <param name="side">Order side (buy or sell).</param>
+            <param name="price">Trade price.</param>
+            <param name="volume">Number of contracts in the trade.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartLineElement,System.Double,System.Double)">
+            <summary>
+            Put the line data.
+            </summary>
+            <param name="element">The chart element representing a line.</param>
+            <param name="value1">The value1.</param>
+            <param name="value2">The value2.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartBandElement,System.Decimal)">
+            <summary>
+            Put the line data.
+            </summary>
+            <param name="element">The chart element representing a band.</param>
+            <param name="value">The value.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.IChartDrawDataItem.Add(StockSharp.Charting.IChartBandElement,System.Double,System.Double)">
+            <summary>
+            Put the line data.
+            </summary>
+            <param name="element">The chart element representing a band.</param>
+            <param name="value1">The value1.</param>
+            <param name="value2">The value2.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.Group(System.DateTime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/>.
+            </summary>
+            <param name="timeStamp">The time stamp of the new data generation.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.Group(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/>.
+            </summary>
+            <param name="xValue">Value of X coordinate for the data.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.Add(StockSharp.Charting.IChartAnnotationElement,StockSharp.Charting.IAnnotationData)">
+            <summary>
+            Put the annotation data.
+            </summary>
+            <param name="element">The chart element representing an annotation.</param>
+            <param name="data">Annotation draw data.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartDrawData.Add(StockSharp.Charting.IChartActiveOrdersElement,StockSharp.BusinessEntities.Order,System.Nullable{System.Boolean},System.Boolean,System.Boolean,System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{StockSharp.Messages.OrderStates})">
+            <summary>
+            Put the active order data.
+            </summary>
+            <param name="element">The chart element representing active orders.</param>
+            <param name="order">The order. Can be null to draw just error animation without data.</param>
+            <param name="isFrozen">Do not allow user to edit the order from chart.</param>
+            <param name="autoRemoveFromChart">Auto remove this order from chart when its state is final (<see cref="F:StockSharp.Messages.OrderStates.Done"/>, <see cref="F:StockSharp.Messages.OrderStates.Failed"/>).</param>
+            <param name="isHidden">Whether the order element should be hidden.</param>
+            <param name="isError">Whether an order operation has failed.</param>
+            <param name="price">Order price.</param>
+            <param name="balance">Balance.</param>
+            <param name="state">Use this state to draw the order.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData"/> instance.</returns>
+        </member>
+        <member name="T:StockSharp.Charting.IChartElement">
+            <summary>
+            The interface that describes the chart element (indicator, candle, etc.).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.FullTitle">
+            <summary>
+            The full series title.
+            If this property is undefined, auto-generated title will be used instead.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.IsVisible">
+            <summary>
+            Whether this element is visible on chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.IsLegend">
+            <summary>
+            Should this element be shown in the legend.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.XAxisId">
+            <summary>
+            X-axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.YAxisId">
+            <summary>
+            Y-axis.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.Colorer">
+            <summary>
+            Custom elements colorer.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.ChartArea">
+            <summary>
+            The chart area on which the element is drawn.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartElement.PersistentChartArea">
+            <summary>
+            The chart area on which the element is drawn.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartExtensions">
+            <summary>
+            <see cref="T:StockSharp.Charting.IChart"/> extensions.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartExtensions.IndicatorProvider">
+            <summary>
+            <see cref="T:StockSharp.Algo.Indicators.IIndicatorProvider"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartExtensions.TryIndicatorProvider">
+            <summary>
+            <see cref="T:StockSharp.Algo.Indicators.IIndicatorProvider"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartExtensions.IndicatorPainterProvider">
+            <summary>
+            <see cref="T:StockSharp.Charting.IChartIndicatorPainterProvider"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartExtensions.TryIndicatorPainterProvider">
+            <summary>
+            <see cref="T:StockSharp.Algo.Indicators.IIndicatorProvider"/>
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.FillIndicators(StockSharp.Charting.IChart)">
+            <summary>
+            Fill <see cref="P:StockSharp.Charting.IChart.IndicatorTypes"/> using <see cref="T:StockSharp.Algo.Indicators.IIndicatorProvider"/>.
+            </summary>
+            <param name="chart">Chart.</param>
+        </member>
+        <member name="F:StockSharp.Charting.IChartExtensions.DefaultXAxisId">
+            <summary>
+            The primary title for the X-axis.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.IChartExtensions.DefaultYAxisId">
+            <summary>
+            The primary title for the Y-axis.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.IsDefault(StockSharp.Charting.IChartAxis)">
+            <summary>
+            Whether this axis can be removed from chart area.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.ValidateManualRange(StockSharp.Charting.IChartAxis)">
+            <summary>
+            Validate the manual numeric range configured for the axis.
+            </summary>
+            <param name="axis">Chart axis.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="axis"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.InvalidOperationException">A supported fixed range has incomplete or unordered bounds.</exception>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartElement,System.Object)">
+            <summary>
+            Put the chart data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element.</param>
+            <param name="value">The chart value.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartCandleElement,StockSharp.Messages.ICandleMessage)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="candle">The candle data.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartCandleElement,StockSharp.Messages.ICandleMessage,System.Decimal,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.CandlePriceLevel[],StockSharp.Messages.CandleStates)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="candle">Candle.</param>
+            <param name="openPrice">Opening price.</param>
+            <param name="highPrice">Highest price.</param>
+            <param name="lowPrice">Lowest price.</param>
+            <param name="closePrice">Closing price.</param>
+            <param name="priceLevels">Price levels.</param>
+            <param name="state">Candle state.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartCandleElement,StockSharp.Messages.ICandleMessage,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.CandlePriceLevel[],StockSharp.Messages.CandleStates)">
+            <summary>
+            Put the candle data with an explicit total volume.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="candle">Candle.</param>
+            <param name="openPrice">Opening price.</param>
+            <param name="highPrice">Highest price.</param>
+            <param name="lowPrice">Lowest price.</param>
+            <param name="closePrice">Closing price.</param>
+            <param name="totalVolume">Total candle volume.</param>
+            <param name="priceLevels">Price levels.</param>
+            <param name="state">Candle state.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartCandleElement,StockSharp.Messages.DataType,StockSharp.Messages.SecurityId,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.CandlePriceLevel[],StockSharp.Messages.CandleStates)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="dataType"><see cref="T:StockSharp.Messages.DataType"/>.</param>
+            <param name="secId"><see cref="T:StockSharp.Messages.SecurityId"/>.</param>
+            <param name="openPrice">Opening price.</param>
+            <param name="highPrice">Highest price.</param>
+            <param name="lowPrice">Lowest price.</param>
+            <param name="closePrice">Closing price.</param>
+            <param name="totalVolume">Total candle volume.</param>
+            <param name="priceLevels">Price levels.</param>
+            <param name="state">Candle state.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartCandleElement,StockSharp.Charting.ChartCandleDrawData)">
+            <summary>
+            Put the candle data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing a candle.</param>
+            <param name="data">Candle data.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartOrderElement,StockSharp.BusinessEntities.Order,System.String)">
+            <summary>
+            Put the order data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing orders.</param>
+            <param name="order">The order value.</param>
+            <param name="errorMessage">Error registering/cancelling order.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.Add(StockSharp.Charting.IChartDrawData.IChartDrawDataItem,StockSharp.Charting.IChartTradeElement,StockSharp.BusinessEntities.MyTrade)">
+            <summary>
+            Put the order data.
+            </summary>
+            <param name="item"><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</param>
+            <param name="element">The chart element representing trades.</param>
+            <param name="trade">The trade value.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData.IChartDrawDataItem"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.GetAutoRange(StockSharp.Charting.IChartArea)">
+            <summary>
+            To use automatic range for the X-axis.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <returns>To use automatic range for the X-axis.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.SetAutoRange(StockSharp.Charting.IChartArea,System.Boolean)">
+            <summary>
+            To use automatic range for the X-axis.
+            </summary>
+            <param name="area"><see cref="T:StockSharp.Charting.IChartArea"/></param>
+            <param name="value">To use automatic range for the X-axis.</param>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.TryGetChart(StockSharp.Charting.IChartElement)">
+            <summary>
+            The chart on which the element is drawn.
+            </summary>
+            <param name="elem"><see cref="T:StockSharp.Charting.IChartElement"/></param>
+            <returns>The chart on which the element is drawn.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.TryGetXAxis(StockSharp.Charting.IChartElement)">
+            <summary>
+            X axis this element currently attached to.
+            </summary>
+            <param name="elem"><see cref="T:StockSharp.Charting.IChartElement"/></param>
+            <returns>X axis this element currently attached to.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.TryGetYAxis(StockSharp.Charting.IChartElement)">
+            <summary>
+            Y axis this element currently attached to.
+            </summary>
+            <param name="elem"><see cref="T:StockSharp.Charting.IChartElement"/></param>
+            <returns>Y axis this element currently attached to.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.GetElements(StockSharp.Charting.IChart)">
+            <summary>
+            Get all elements.
+            </summary>
+            <param name="chart"><see cref="T:StockSharp.Charting.IChart"/></param>
+            <returns>Chart elements.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.GetElements``1(StockSharp.Charting.IChart)">
+            <summary>
+            Get all elements.
+            </summary>
+            <typeparam name="T"><see cref="T:StockSharp.Charting.IChartElement"/> type.</typeparam>
+            <param name="chart"><see cref="T:StockSharp.Charting.IChart"/></param>
+            <returns>Chart elements.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartExtensions.ClearAreas(StockSharp.Charting.IChart)">
+            <summary>
+            To remove all areas from the chart.
+            </summary>
+            <param name="chart"><see cref="T:StockSharp.Charting.IChart"/></param>
+        </member>
+        <member name="T:StockSharp.Charting.IChartIndicatorElement">
+            <summary>
+            The chart element representing the indicator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.IndicatorPainter">
+            <summary>
+            The indicator renderer.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.Color">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.Color"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.AdditionalColor">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.AdditionalColor"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.StrokeThickness">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.StrokeThickness"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.AntiAliasing">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.AntiAliasing"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.DrawStyle">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.Style"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.ShowAxisMarker">
+            <summary>Compatibility property for <see cref="P:StockSharp.Charting.IChartLineElement.ShowAxisMarker"/>.</summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorElement.AutoAssignYAxis">
+            <summary>
+            Auto assign Y axis when the element is being added to chart.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartIndicatorPainter">
+            <summary>
+            The interface describing the indicator renderer on the chart (for example, lines, histograms, etc.).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorPainter.Element">
+            <summary>
+            The chart element representing the indicator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartIndicatorPainter.InnerElements">
+            <summary>
+            Child elements.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainter.Draw(StockSharp.Charting.IChartDrawData)">
+            <summary>
+            To process the new data.
+            </summary>
+            <param name="data">New data.</param>
+            <returns><see langword="true"/> if the data was successfully drawn, otherwise, returns <see langword="false"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainter.Reset">
+            <summary>
+            To reset painter child elements.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainter.OnAttached(StockSharp.Charting.IChartIndicatorElement)">
+            <summary>
+            Called when this painter is attached to chart indicator element.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainter.OnDetached">
+            <summary>
+            Called when this painter is detached from chart indicator element.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartIndicatorPainterProvider">
+            <summary>
+            The interface describing the <see cref="T:StockSharp.Charting.IChartIndicatorPainter"/> provider.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainterProvider.Init">
+            <summary>
+            Initialize provider.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IChartIndicatorPainterProvider.TryGetPainter(System.Type)">
+            <summary>
+            Try get <see cref="T:StockSharp.Charting.IChartIndicatorPainter"/>.
+            </summary>
+            <param name="type"><see cref="T:StockSharp.Algo.Indicators.IIndicator"/> type.</param>
+            <returns><see cref="T:StockSharp.Charting.IChartIndicatorPainter"/></returns>
+        </member>
+        <member name="T:StockSharp.Charting.IChartLineElement">
+            <summary>
+            The chart element representing a line.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.Color">
+            <summary>
+            Line color (candles, etc.), with which it will be drawn on chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.AdditionalColor">
+            <summary>
+            Additional line color (candles, etc.), with which it will be drawn on the chart.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.StrokeThickness">
+            <summary>
+            The thickness of the line (candle, etc.) with which it will be drawn on the chart. The default is 1.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.AntiAliasing">
+            <summary>
+            The smoothing of the line drawing. The default is enabled.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.Style">
+            <summary>
+            The line drawing style. The default is <see cref="F:Ecng.Drawing.DrawStyles.Line"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartLineElement.ShowAxisMarker">
+            <summary>
+            Show Y-axis marker.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartManualRangeAxis">
+            <summary>
+            Chart axis supporting a fixed numeric range.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartManualRangeAxis.MinValue">
+            <summary>
+            Manual numeric range minimum, or <see langword="null"/> when no manual range is configured.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartManualRangeAxis.MaxValue">
+            <summary>
+            Manual numeric range maximum, or <see langword="null"/> when no manual range is configured.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartOrderElement">
+            <summary>
+            The chart element representing orders.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartOrderElement.ErrorColor">
+            <summary>
+            Fill color of transaction errors.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartOrderElement.ErrorStrokeColor">
+            <summary>
+            Stroke color of transaction errors.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartOrderElement.Filter">
+            <summary>
+            Orders display filter.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartPart`1">
+            <summary>
+            The interfaces that describes the part of the chart.
+            </summary>
+            <typeparam name="T">The chart element type.</typeparam>
+        </member>
+        <member name="P:StockSharp.Charting.IChartPart`1.Id">
+            <summary>
+            Unique ID.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartTradeElement">
+            <summary>
+            The chart element representing trades.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartTransactionElement">
+            <summary>
+            The interface that describes the Orders Or Trades chart element.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.BuyColor">
+            <summary>
+            Color of graphics element on chart, indicating buy.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.BuyStrokeColor">
+            <summary>
+            Border color of graphics element on chart, indicating buy.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.SellColor">
+            <summary>
+            Color of graphics element on chart, indicating sell.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.SellStrokeColor">
+            <summary>
+            Border color of graphics element on chart, indicating sell.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.UseAltIcon">
+            <summary>
+            Use alternative icons.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartTransactionElement.DrawSize">
+            <summary>
+            Draw size.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IChartVolatilitySmileElement">
+            <summary>
+            The chart element representing a volatility smile.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartVolatilitySmileElement.Values">
+            <summary>
+            Points that displays source volatility values.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IChartVolatilitySmileElement.Smile">
+            <summary>
+            Line that displays approximated volatility smile.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Charting.IThemeableChart">
+            <summary>
+            Base interface for all chart components.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Charting.IThemeableChart.ChartTheme">
+            <summary>
+            The name of the graphic theme.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Charting.IThemeableChart.CreateData">
+            <summary>
+            Create <see cref="T:StockSharp.Charting.IChartDrawData"/> instance.
+            </summary>
+            <returns><see cref="T:StockSharp.Charting.IChartDrawData"/> instance.</returns>
+        </member>
+        <member name="M:StockSharp.Charting.IThemeableChart.Draw(StockSharp.Charting.IChartDrawData)">
+            <summary>
+            To process the new data.
+            </summary>
+            <param name="data">New data.</param>
+        </member>
+        <member name="T:StockSharp.Charting.LabelPlacement">
+            <summary>
+            Enumeration constants to define label placement.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Right">
+            <summary>Places on the right.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.TopRight">
+            <summary>Places at the top right.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.BottomRight">
+            <summary>Places at the bottom right.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Bottom">
+            <summary>Places at the bottom.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Left">
+            <summary>Places on the left.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.TopLeft">
+            <summary>Places on the top left.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.BottomLeft">
+            <summary>Places on the bottom left.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Top">
+            <summary>Places at the top.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Axis">
+            <summary>Places on the axis.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Center">
+            <summary>Places at the center.</summary>
+        </member>
+        <member name="F:StockSharp.Charting.LabelPlacement.Auto">
+            <summary>Automatic Placement (Default).</summary>
+        </member>
+        <member name="T:StockSharp.Charting.LineChartStyles">
+            <summary>
+            Equity curve chart drawing styles.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.LineChartStyles.Area">
+            <summary>
+            Chart drawing in the form of a fill area.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.LineChartStyles.Line">
+            <summary>
+            Chart drawing in the form of a line.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Charting.LineChartStyles.DashedLine">
+            <summary>
+            Chart drawing in the form of a dashed line.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyTrading 量化工作台</title>
+<link rel="stylesheet" href="style.css?v=23">
+<script src="lib/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+<header>
+  <span class="logo">⬡ MyTrading</span>
+  <nav>
+    <span class="tab active" data-view="backtest">回测工作台</span>
+    <span class="tab" data-view="data">数据</span>
+    <span class="tab" data-view="live">实盘监控</span>
+    <span class="tab" data-view="strategy">策略库</span>
+    <span class="tab" data-view="ai">策略工坊(AI)</span>
+    <span class="tab disabled">总览</span>
+  </nav>
+  <span id="dataInfo" class="muted"></span>
+</header>
+
+<!-- ============ 视图1：回测工作台 ============ -->
+<main id="view-backtest">
+  <!-- 左：参数面板 -->
+  <aside id="params">
+    <h3>策略（来自策略库）</h3>
+    <select id="strategy"></select>
+    <div id="curStrategyBanner" class="hint">未选择策略——请到[策略库]新建，或在[策略工坊]让 AI 生成</div>
+
+    <div class="group">
+      <h4>数据</h4>
+      <label>品种 <input id="symbol" type="text" value="EURUSD" style="text-transform:uppercase"></label>
+      <label>周期
+        <select id="tf" class="tfSel">
+          <option>D1</option><option>H4</option><option>H1</option>
+          <option>M30</option><option>M15</option><option>M5</option><option>M1</option><option>W1</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="smaParams" class="group">
+      <h4>参数</h4>
+      <label>快线 <input id="fast" type="number" value="10" min="2"></label>
+      <label>慢线 <input id="slow" type="number" value="30" min="3"></label>
+    </div>
+    <div id="boParams" class="group hidden">
+      <h4>参数</h4>
+      <label>突破回看天数 <input id="length" type="number" value="20" min="2"></label>
+    </div>
+
+    <div class="group">
+      <h4>资金与风控</h4>
+      <label>每笔手数(lot) <input id="volume" type="number" value="1" step="0.1" min="0.01"></label>
+      <label>止损 % <input id="stop" type="number" value="2" step="0.5" min="0"></label>
+      <label>止盈 % <input id="take" type="number" value="0" step="0.5" min="0"></label>
+      <label>移动止损 % <input id="trail" type="number" value="0" step="0.5" min="0"></label>
+      <label>分批落袋 % <input id="partial" type="number" value="0" step="0.5" min="0"></label>
+      <span class="hint">填 0 表示关闭该项；移动止损=回撤止盈；分批落袋=浮盈达到即平一半</span>
+    </div>
+
+    <button id="runBtn">▶ 开始回测</button>
+    <button id="optBtn" class="secondary">⚙ 参数优化</button>
+    <div id="progress" class="hidden">回测中，请稍候…</div>
+  </aside>
+
+  <!-- 中：图表 -->
+  <section id="charts">
+    <div class="chart-head">
+      <b id="chartSymbol">EURUSD</b> <span id="chartTf" class="muted">D1 日线</span>
+      <span id="tradeCount" class="muted"></span>
+    </div>
+    <div id="candleChart"></div>
+    <div class="chart-head"><b>权益曲线</b> <span class="muted">初始本金 100,000</span></div>
+    <div id="equityChart"></div>
+  </section>
+
+  <!-- 右：成绩单 -->
+  <aside id="stats">
+    <h3>成绩单</h3>
+    <div id="statsBody">
+      <div class="muted">运行回测后显示</div>
+    </div>
+
+    <h3>交易明细</h3>
+    <div id="tradesWrap">
+      <table id="tradesTable">
+        <thead><tr><th>时间</th><th>方向</th><th>价格</th><th>手数</th><th>盈亏</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </aside>
+</main>
+
+<!-- ============ 视图2：数据管理 ============ -->
+<main id="view-data" class="hidden">
+  <section style="grid-column: 1 / -1;">
+    <h3>本地数据仓库 <span class="muted" id="dataDir">(D:\StockSharp\MyTrading\data)</span></h3>
+    <table id="dataList">
+      <thead><tr><th>品种</th><th>周期</th><th>覆盖范围</th><th>K线数</th><th>大小</th><th>来源</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <h3 style="margin-top:20px">新增下载（通过本地 MT5 终端）</h3>
+    <div class="fetchForm">
+      <label>品种 <input id="fSymbol" type="text" value="GBPUSD" style="text-transform:uppercase"></label>
+      <label>周期
+        <select id="fTf">
+          <option>D1</option><option>H4</option><option>H1</option>
+          <option>M30</option><option>M15</option><option>M5</option><option>M1</option><option>W1</option>
+        </select>
+      </label>
+      <label>开始日期 <input id="fBegin" type="date" value="2015-01-01"></label>
+      <button id="fetchBtn" style="width:auto; padding:8px 20px;">开始下载</button>
+    </div>
+    <div id="fetchStatus" class="muted" style="margin-top:10px; white-space:pre-wrap;"></div>
+    <p class="hint">注意：需要 MT5 终端正在运行且登录过账户；品种需在 MT5 的"市场报价"里可见（如 XAUUSD、指数等 CFD 符号因券商而异）。下载完成后即可在回测工作台使用。</p>
+  </section>
+</main>
+
+<!-- ============ 视图3：实盘监控 ============ -->
+<main id="view-live" class="hidden">
+  <!-- 左：配置 -->
+  <aside id="liveParams">
+    <h3>实时策略（来自策略库） <span id="liveDot" class="dot off"></span></h3>
+    <select id="lStrategy"></select>
+    <div id="liveStrategyBanner" class="hint">未选择策略</div>
+
+    <div class="group">
+      <h4>数据（本地 MT5 实时行情）</h4>
+      <label>品种 <input id="lSymbol" type="text" value="EURUSD" style="text-transform:uppercase"></label>
+      <label>周期
+        <select id="lTf">
+          <option>D1</option><option>H4</option><option>H1</option>
+          <option>M30</option><option>M15</option><option>M5</option><option>M1</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="lSmaParams" class="group">
+      <h4>参数</h4>
+      <label>快线 <input id="lFast" type="number" value="10" min="2"></label>
+      <label>慢线 <input id="lSlow" type="number" value="30" min="3"></label>
+    </div>
+    <div id="lBoParams" class="group hidden">
+      <h4>参数</h4>
+      <label>突破回看天数 <input id="lLength" type="number" value="20" min="2"></label>
+    </div>
+
+    <div class="group">
+      <h4>下单（MT5 模拟账户）</h4>
+      <label>手数(lot) <input id="lLots" type="number" value="0.1" step="0.01" min="0.01"></label>
+      <label>止损 % <input id="lStop" type="number" value="2" step="0.5" min="0"></label>
+      <label>止盈 % <input id="lTake" type="number" value="0" step="0.5" min="0"></label>
+      <label>移动止损 % <input id="lTrail" type="number" value="0" step="0.5" min="0"></label>
+      <label>分批落袋 % <input id="lPartial" type="number" value="0" step="0.5" min="0"></label>
+      <label class="chk"><input id="lAuto" type="checkbox"> 自动下单（关=仅信号）</label>
+    </div>
+
+    <button id="lStart">▶ 启动监控</button>
+    <button id="lStop" class="danger" disabled>⏹ 停止</button>
+    <div id="liveErr" class="muted" style="margin-top:8px; color:var(--down);"></div>
+  </aside>
+
+  <!-- 中：实时图表 -->
+  <section id="liveCharts">
+    <div class="chart-head">
+      <b id="liveSymbol">—</b> <span id="liveTf" class="muted"></span>
+      <span id="liveQuote" class="muted"></span>
+      <span id="liveUpdated" class="muted" style="float:right"></span>
+    </div>
+    <div id="liveChart"></div>
+  </section>
+
+  <!-- 右：账户与信号 -->
+  <aside id="liveSide">
+    <h3>账户</h3>
+    <table id="acctTable"><tbody>
+      <tr><td class="muted">未连接</td></tr>
+    </tbody></table>
+
+    <h3 style="margin-top:14px">当前持仓</h3>
+    <div id="livePosition" class="muted">无</div>
+
+    <h3 style="margin-top:14px">信号日志</h3>
+    <div id="signalLog" class="muted">启动后显示</div>
+  </aside>
+</main>
+
+<!-- ============ 视图4：策略库 ============ -->
+<main id="view-strategy" class="hidden">
+  <section style="grid-column: 1 / -1;">
+    <h3>策略库 <span class="muted">一个策略 = 模板 + 参数 + 备注 + 成绩快照</span></h3>
+    <div class="fetchForm">
+      <button id="strNew" style="width:auto; padding:8px 20px;">＋ 新建策略</button>
+      <span class="muted">选中一个策略后可回测 / 编辑 / 删除；在回测工作台回测后也可一键存入</span>
+    </div>
+    <table id="strTable" style="margin-top:12px">
+      <thead><tr><th>名称</th><th>模板</th><th>品种/周期</th><th>状态</th><th>最近成绩(净利润)</th><th>备注</th><th>更新时间</th><th>操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<!-- ============ 策略编辑弹窗 ============ -->
+<div id="strModal" class="modal hidden">
+  <div class="modal-box" style="width:560px">
+    <div class="modal-head">
+      <b id="strModalTitle">新建策略</b>
+      <button class="closeX" id="strClose">✕</button>
+    </div>
+    <input type="hidden" id="strId">
+    <div class="strForm">
+      <label class="stack">名称
+        <input id="strName" type="text" placeholder="如: EURUSD日线双均线v1">
+      </label>
+      <div class="row2">
+        <label class="stack">模板
+          <select id="strTemplate" class="wide">
+            <option value="sma">SMA 均线交叉</option>
+            <option value="breakout">N 日突破</option>
+          </select>
+        </label>
+        <label class="stack">状态
+          <select id="strStatus" class="wide">
+            <option value="draft">📝 草案</option>
+            <option value="tested">✅ 已回测</option>
+            <option value="paper">🧪 模拟盘验证中</option>
+            <option value="retired">🗑 退役</option>
+          </select>
+        </label>
+      </div>
+      <div class="row2">
+        <label class="stack">品种
+          <input id="strSymbol" type="text" value="EURUSD" style="text-transform:uppercase">
+        </label>
+        <label class="stack">周期
+          <select id="strTf" class="wide">
+            <option>D1</option><option>H4</option><option>H1</option>
+            <option>M30</option><option>M15</option><option>M5</option><option>M1</option><option>W1</option>
+          </select>
+        </label>
+      </div>
+      <label class="stack">参数 JSON
+        <input id="strParams" type="text" class="mono" placeholder='{"fast":10,"slow":30,"volume":10000,"stop":2}'>
+      </label>
+      <label class="stack">标签
+        <input id="strTags" type="text" placeholder="趋势,日线（逗号分隔）">
+      </label>
+      <label class="stack">备注
+        <textarea id="strNotes" rows="5" class="area"></textarea>
+      </label>
+    </div>
+    <button id="strSave" style="margin-top:14px">保存</button>
+  </div>
+</div>
+
+<!-- ============ 存入策略库弹窗 ============ -->
+<div id="saveModal" class="modal hidden">
+  <div class="modal-box" style="width:460px">
+    <div class="modal-head"><b>💾 存入策略库</b><button class="closeX" id="saveClose">✕</button></div>
+    <div class="strForm">
+      <label class="stack">名称
+        <input id="saveName" type="text">
+      </label>
+      <label class="stack">备注
+        <textarea id="saveNotes" rows="4" class="area"></textarea>
+      </label>
+    </div>
+    <button id="saveDo" style="margin-top:14px">保存</button>
+  </div>
+</div>
+
+<!-- ============ 参数优化弹窗 ============ -->
+<div id="optModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head">
+      <b>⚙ 参数优化</b>
+      <span id="optRangeHint" class="muted"></span>
+      <button class="closeX" id="optClose">✕</button>
+    </div>
+
+    <div class="optForm">
+      <span id="optALabel">快线</span>
+      <label>从 <input id="optAFrom" type="number" value="5"></label>
+      <label>到 <input id="optATo" type="number" value="30"></label>
+      <label>步长 <input id="optAStep" type="number" value="5"></label>
+      <span id="optBLabel">慢线</span>
+      <label>从 <input id="optBFrom" type="number" value="20"></label>
+      <label>到 <input id="optBTo" type="number" value="60"></label>
+      <label>步长 <input id="optBStep" type="number" value="10"></label>
+      <span class="muted" id="optInfo">使用左侧当前策略 / 品种 / 周期 / 手数；突破策略的参数B是止损%</span>
+    </div>
+
+    <button id="optRun" style="width:auto; padding:8px 20px;">开始优化</button>
+    <span id="optProgress" class="muted" style="margin-left:12px;"></span>
+    <div id="optBar" class="bar hidden"><div id="optBarFill"></div></div>
+
+    <table id="optTable" class="hidden">
+      <thead><tr>
+        <th id="thA">快线</th><th id="thB">慢线</th>
+        <th>净利润</th><th>夏普</th><th>回撤%</th><th>盈利因子</th><th>交易数</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="hint hidden" id="optHint2">点击任意一行，参数自动填回左侧，可直接跑单次回测看图表</p>
+  </div>
+</div>
+
+<!-- ============ 视图5：策略工坊(AI) ============ -->
+<main id="view-ai" class="hidden">
+  <!-- 左：会话与对话 -->
+  <aside id="aiChatPanel">
+    <div style="display:flex; gap:6px; align-items:center; margin-bottom:8px;">
+      <select id="aiConvList" style="flex:1; width:auto;"></select>
+      <button class="mini" id="aiNewConv">＋新会话</button>
+      <button class="mini" id="aiDelConv">删</button>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center; margin-bottom:8px;">
+      <label style="margin:0; font-size:12px;">预设
+        <select id="aiPreset" style="width:120px;">
+          <option value="strategy">策略生成</option>
+          <option value="diagnose">策略诊断</option>
+          <option value="chat">自由对话</option>
+        </select>
+      </label>
+      <button class="mini" id="aiMgrBtn" style="margin-left:auto;">🤖 AI管理</button>
+    </div>
+    <div id="aiMessages"></div>
+    <div style="display:flex; gap:6px; margin-top:8px;">
+      <input id="aiInput" type="text" placeholder="用自然语言描述你的策略想法…" style="flex:1;">
+      <button id="aiSend" style="width:auto; padding:8px 16px; margin:0;">发送</button>
+    </div>
+  </aside>
+
+  <!-- 右：分板块输出 -->
+  <section id="aiPanels">
+    <div class="aiCard">
+      <h3>① 策略卡片 <button class="mini hidden" id="aiCardBacktest">▶ 直接回测</button>
+          <button class="mini hidden" id="aiCardSave">💾 存入策略库</button></h3>
+      <div id="aiCardBody" class="muted">AI 生成策略后显示在这里</div>
+    </div>
+    <div class="aiCard">
+      <h3>② 积木配置（人话版）</h3>
+      <div id="aiPlainBody" class="muted">—</div>
+      <details style="margin-top:8px"><summary class="muted" style="cursor:pointer">查看原始JSON</summary>
+        <pre id="aiCodeBody" class="codeBox muted">—</pre>
+      </details>
+    </div>
+    <div class="aiGrid2">
+      <div class="aiCard">
+        <h3>③ 设计建议</h3>
+        <ul id="aiAdviceList" class="muted"><li>—</li></ul>
+      </div>
+      <div class="aiCard">
+        <h3>④ 风险提示</h3>
+        <ul id="aiRiskList" class="muted"><li>—</li></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ AI 管理弹窗 ============ -->
+<div id="aiMgrModal" class="modal hidden">
+  <div class="modal-box" style="width:640px">
+    <div class="modal-head">
+      <b>🤖 AI 管理</b>
+      <button class="closeX" id="aiMgrClose">✕</button>
+    </div>
+
+    <div style="display:flex; gap:6px; align-items:center; margin-bottom:8px;">
+      <select id="aiProvList" style="flex:1; width:auto;"></select>
+      <button class="mini" id="aiProvNew">＋新增</button>
+      <button class="mini danger2" id="aiProvDel">删除</button>
+    </div>
+
+    <div class="strForm">
+      <div class="row2">
+        <label class="stack">名称
+          <input id="aiPName" type="text" placeholder="如: DeepSeek">
+        </label>
+        <label class="stack">协议
+          <select id="aiPProtocol" class="wide">
+            <option value="openai">OpenAI 兼容（DeepSeek/智谱/Kimi/中转…）</option>
+            <option value="anthropic">Anthropic (Claude)</option>
+          </select>
+        </label>
+      </div>
+      <label class="stack">接口地址 base_url
+        <input id="aiPUrl" type="text" placeholder="https://api.deepseek.com（OpenAI兼容填到根路径即可）">
+      </label>
+      <label class="stack">API Key
+        <input id="aiPKey" type="password" placeholder="sk-…（Ollama 本地可留空）">
+      </label>
+      <div class="row2">
+        <label class="stack">模型
+          <input id="aiPModel" type="text" placeholder="deepseek-chat">
+        </label>
+        <label class="stack">温度
+          <input id="aiPTemp" type="number" value="0.4" step="0.1" min="0" max="2">
+        </label>
+      </div>
+      <label class="chk"><input id="aiPDefault" type="checkbox"> 设为默认接入方案</label>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button id="aiProvSave" style="width:auto; padding:8px 20px;">保存</button>
+      <button id="aiProvTest" class="secondary" style="width:auto; padding:8px 20px;">测试连接</button>
+      <span id="aiTestResult" class="muted" style="align-self:center;"></span>
+    </div>
+    <p class="hint">提示：Key 只保存在你本地的 workbench.db，不会上传。发送给 AI 的只有你的文字描述和回测统计数字，K线数据和账户信息不会发送。</p>
+  </div>
+</div>
+
+<script src="app.js?v=23"></script>
+</body>
+</html>

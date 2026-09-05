@@ -1,0 +1,683 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockSharp.Reporting</name>
+    </assembly>
+    <members>
+        <member name="T:StockSharp.Reporting.CsvReportGenerator">
+            <summary>
+            The generator of report on equity in the csv format.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.CsvReportGenerator.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.CsvReportGenerator.Extension">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.CsvReportGenerator.OnGenerate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Reporting.ExcelReportGenerator">
+            <summary>
+            The report generator for the strategy in the Excel format.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Reporting.ExcelReportGenerator"/>.
+            </remarks>
+            <param name="provider"><see cref="T:Ecng.Excel.IExcelWorkerProvider"/>.</param>
+            <param name="template">The template bytes to be copied into report and filled. Thread-safe for parallel use.</param>
+        </member>
+        <member name="M:StockSharp.Reporting.ExcelReportGenerator.#ctor(Ecng.Excel.IExcelWorkerProvider,System.ReadOnlyMemory{System.Byte})">
+            <summary>
+            The report generator for the strategy in the Excel format.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Reporting.ExcelReportGenerator"/>.
+            </remarks>
+            <param name="provider"><see cref="T:Ecng.Excel.IExcelWorkerProvider"/>.</param>
+            <param name="template">The template bytes to be copied into report and filled. Thread-safe for parallel use.</param>
+        </member>
+        <member name="P:StockSharp.Reporting.ExcelReportGenerator.Template">
+            <summary>
+            The template bytes to be copied into report and filled.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ExcelReportGenerator.Decimals">
+            <summary>
+            The number of decimal places for formatting. By default, it equals to 2.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ExcelReportGenerator.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ExcelReportGenerator.Extension">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.ExcelReportGenerator.GetTemplate">
+            <summary>
+            Gets the embedded template from resources as byte array.
+            </summary>
+            <returns>Template bytes, or empty if not found.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ExcelReportGenerator.OnGenerate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.ExcelReportGenerator.SwitchSheet(Ecng.Excel.IExcelWorker,System.String,System.String)">
+            <summary>
+            Switch to sheet by localized name, falling back to English name if not found.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Reporting.FormatExtensions">
+            <summary>
+            Format extensions.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.FormatExtensions.Format(System.Nullable{System.TimeSpan})">
+            <summary>
+            To format the <see cref="T:System.TimeSpan"/> in <see cref="T:System.String"/>.
+            </summary>
+            <param name="time"><see cref="T:System.TimeSpan"/> value.</param>
+            <returns><see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.FormatExtensions.Format(System.TimeSpan)">
+            <summary>
+            To format the <see cref="T:System.TimeSpan"/> in <see cref="T:System.String"/>.
+            </summary>
+            <param name="time"><see cref="T:System.TimeSpan"/> value.</param>
+            <returns><see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.FormatExtensions.Format(System.DateTime)">
+            <summary>
+            To format the <see cref="T:System.DateTime"/> in <see cref="T:System.String"/>.
+            </summary>
+            <param name="time"><see cref="T:System.DateTime"/> value.</param>
+            <returns><see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:StockSharp.Reporting.IReportGenerator">
+            <summary>
+            The interface describe report generator for strategies.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.Extension">
+            <summary>
+            Extension without leading dot char.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.IncludeOrders">
+            <summary>
+            To add orders to the report. Orders are added by default.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.IncludeTrades">
+            <summary>
+            To add trades to the report. Trades are added by default.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.IncludePositions">
+            <summary>
+            To add positions to the report. Positions are added by default.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGenerator.Encoding">
+            <summary>
+            Encoding.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.IReportGenerator.Generate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            To generate the report.
+            </summary>
+            <param name="source"><see cref="T:StockSharp.Reporting.IReportSource"/>.</param>
+            <param name="stream">The stream to write the report to.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/>.</param>
+        </member>
+        <member name="T:StockSharp.Reporting.BaseReportGenerator">
+            <summary>
+            The base report generator for strategies.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.BaseReportGenerator.#ctor">
+            <summary>
+            Initialize <see cref="T:StockSharp.Reporting.BaseReportGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.IncludeOrders">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.IncludeTrades">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.IncludePositions">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.Encoding">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.BaseReportGenerator.Extension">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.BaseReportGenerator.Generate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.BaseReportGenerator.OnGenerate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Generates the report content.
+            </summary>
+            <param name="source"><see cref="T:StockSharp.Reporting.IReportSource"/>.</param>
+            <param name="stream">The stream to write the report to.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/>.</param>
+        </member>
+        <member name="T:StockSharp.Reporting.IReportGeneratorProvider">
+            <summary>
+            <see cref="T:StockSharp.Reporting.IReportGenerator"/> provider.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportGeneratorProvider.Generators">
+            <summary>
+            Available generators.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Reporting.ReportGeneratorProvider">
+            <summary>
+            Default implementation <see cref="T:StockSharp.Reporting.IReportGeneratorProvider"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportGeneratorProvider.#ctor(System.Collections.Generic.IEnumerable{StockSharp.Reporting.IReportGenerator})">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Reporting.ReportGeneratorProvider"/>.
+            </summary>
+            <param name="generators">Available generators.</param>
+        </member>
+        <member name="T:StockSharp.Reporting.ReportPosition">
+            <summary>
+            Position round-trip data for reports.
+            </summary>
+            <param name="SecurityId">Security id.</param>
+            <param name="PortfolioName">Portfolio name.</param>
+            <param name="OpenTime">Position open time.</param>
+            <param name="OpenPrice">Position open price.</param>
+            <param name="CloseTime">Position close time.</param>
+            <param name="ClosePrice">Position close price.</param>
+            <param name="MaxPosition">Maximum absolute position size during the round-trip.</param>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportPosition.#ctor(StockSharp.Messages.SecurityId,System.String,System.DateTime,System.Nullable{System.Decimal},System.DateTime,System.Nullable{System.Decimal},System.Decimal)">
+            <summary>
+            Position round-trip data for reports.
+            </summary>
+            <param name="SecurityId">Security id.</param>
+            <param name="PortfolioName">Portfolio name.</param>
+            <param name="OpenTime">Position open time.</param>
+            <param name="OpenPrice">Position open price.</param>
+            <param name="CloseTime">Position close time.</param>
+            <param name="ClosePrice">Position close price.</param>
+            <param name="MaxPosition">Maximum absolute position size during the round-trip.</param>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.SecurityId">
+            <summary>Security id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.PortfolioName">
+            <summary>Portfolio name.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.OpenTime">
+            <summary>Position open time.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.OpenPrice">
+            <summary>Position open price.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.CloseTime">
+            <summary>Position close time.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.ClosePrice">
+            <summary>Position close price.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportPosition.MaxPosition">
+            <summary>Maximum absolute position size during the round-trip.</summary>
+        </member>
+        <member name="T:StockSharp.Reporting.ReportOrder">
+            <summary>
+            Order data for reports.
+            </summary>
+            <param name="Id">Order id.</param>
+            <param name="TransactionId">Transaction id.</param>
+            <param name="SecurityId">Security id.</param>
+            <param name="Side">Side (buy/sell).</param>
+            <param name="Time">Order time.</param>
+            <param name="Price">Order price.</param>
+            <param name="State">Order state.</param>
+            <param name="Balance">Balance.</param>
+            <param name="Volume">Volume.</param>
+            <param name="Type">Order type.</param>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportOrder.#ctor(System.Nullable{System.Int64},System.Int64,StockSharp.Messages.SecurityId,StockSharp.Messages.Sides,System.DateTime,System.Decimal,System.Nullable{StockSharp.Messages.OrderStates},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{StockSharp.Messages.OrderTypes})">
+            <summary>
+            Order data for reports.
+            </summary>
+            <param name="Id">Order id.</param>
+            <param name="TransactionId">Transaction id.</param>
+            <param name="SecurityId">Security id.</param>
+            <param name="Side">Side (buy/sell).</param>
+            <param name="Time">Order time.</param>
+            <param name="Price">Order price.</param>
+            <param name="State">Order state.</param>
+            <param name="Balance">Balance.</param>
+            <param name="Volume">Volume.</param>
+            <param name="Type">Order type.</param>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Id">
+            <summary>Order id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.TransactionId">
+            <summary>Transaction id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.SecurityId">
+            <summary>Security id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Side">
+            <summary>Side (buy/sell).</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Time">
+            <summary>Order time.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Price">
+            <summary>Order price.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.State">
+            <summary>Order state.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Balance">
+            <summary>Balance.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Volume">
+            <summary>Volume.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportOrder.Type">
+            <summary>Order type.</summary>
+        </member>
+        <member name="T:StockSharp.Reporting.ReportTrade">
+            <summary>
+            Trade data for reports.
+            </summary>
+            <param name="TradeId">Trade id.</param>
+            <param name="OrderTransactionId">Order transaction id.</param>
+            <param name="SecurityId">Security id.</param>
+            <param name="Time">Trade time.</param>
+            <param name="TradePrice">Trade price.</param>
+            <param name="OrderPrice">Order price.</param>
+            <param name="Volume">Volume.</param>
+            <param name="Side">Side.</param>
+            <param name="OrderId">Order id.</param>
+            <param name="Slippage">Slippage.</param>
+            <param name="PnL">Profit-loss.</param>
+            <param name="Position">Position change.</param>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportTrade.#ctor(System.Nullable{System.Int64},System.Int64,StockSharp.Messages.SecurityId,System.DateTime,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.Sides,System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            Trade data for reports.
+            </summary>
+            <param name="TradeId">Trade id.</param>
+            <param name="OrderTransactionId">Order transaction id.</param>
+            <param name="SecurityId">Security id.</param>
+            <param name="Time">Trade time.</param>
+            <param name="TradePrice">Trade price.</param>
+            <param name="OrderPrice">Order price.</param>
+            <param name="Volume">Volume.</param>
+            <param name="Side">Side.</param>
+            <param name="OrderId">Order id.</param>
+            <param name="Slippage">Slippage.</param>
+            <param name="PnL">Profit-loss.</param>
+            <param name="Position">Position change.</param>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.TradeId">
+            <summary>Trade id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.OrderTransactionId">
+            <summary>Order transaction id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.SecurityId">
+            <summary>Security id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.Time">
+            <summary>Trade time.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.TradePrice">
+            <summary>Trade price.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.OrderPrice">
+            <summary>Order price.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.Volume">
+            <summary>Volume.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.Side">
+            <summary>Side.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.OrderId">
+            <summary>Order id.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.Slippage">
+            <summary>Slippage.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.PnL">
+            <summary>Profit-loss.</summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportTrade.Position">
+            <summary>Position change.</summary>
+        </member>
+        <member name="T:StockSharp.Reporting.IReportSource">
+            <summary>
+            The interface for providing data to report generators.
+            Decouples reports from concrete strategy implementation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.IReportSource.Prepare">
+            <summary>
+            Prepare data for report generation.
+            Call this before accessing any data to ensure all values are up-to-date.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Name">
+            <summary>
+            Strategy name.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.TotalWorkingTime">
+            <summary>
+            The total time of strategy operation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Commission">
+            <summary>
+            Total commission.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Position">
+            <summary>
+            Current position.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.PnL">
+            <summary>
+            Total profit-loss.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Slippage">
+            <summary>
+            Total slippage.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Latency">
+            <summary>
+            Total latency.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Parameters">
+            <summary>
+            Get strategy parameters as name-value pairs.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.StatisticParameters">
+            <summary>
+            Statistic parameters as name-value pairs.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Orders">
+            <summary>
+            Orders collection.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.OwnTrades">
+            <summary>
+            Own trades collection.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.IReportSource.Positions">
+            <summary>
+            Position round-trips collection.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Reporting.JsonReportGenerator">
+            <summary>
+            The report generator for the strategy in the json format.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.JsonReportGenerator.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.JsonReportGenerator.Extension">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.JsonReportGenerator.OnGenerate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Reporting.ReportSource">
+            <summary>
+            Report data source that allows external code to add information and supports aggregation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Reporting.ReportSource"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.TotalWorkingTime">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Commission">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Position">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.PnL">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Slippage">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Latency">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.MaxOrdersBeforeAggregation">
+            <summary>
+            Maximum number of orders before automatic aggregation is triggered.
+            Default is 10000. Set to 0 to disable automatic aggregation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.MaxTradesBeforeAggregation">
+            <summary>
+            Maximum number of trades before automatic aggregation is triggered.
+            Default is 10000. Set to 0 to disable automatic aggregation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.AggregationInterval">
+            <summary>
+            Time interval for aggregation. Orders/trades within the same interval are grouped together.
+            Default is 1 hour. Set to <see cref="F:System.TimeSpan.Zero"/> to disable time-based grouping
+            (items will be aggregated by count only when threshold is exceeded).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Parameters">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.StatisticParameters">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Orders">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.OwnTrades">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.Positions">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.OrdersCount">
+            <summary>
+            Current orders count.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.ReportSource.TradesCount">
+            <summary>
+            Current trades count.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddParameter(System.String,System.Object)">
+            <summary>
+            Add a parameter.
+            </summary>
+            <param name="name">Parameter name.</param>
+            <param name="value">Parameter value.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddParameters(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Object}})">
+            <summary>
+            Add multiple parameters.
+            </summary>
+            <param name="parameters">Parameters to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddStatisticParameter(System.String,System.Object)">
+            <summary>
+            Add a statistic parameter.
+            </summary>
+            <param name="name">Parameter name.</param>
+            <param name="value">Parameter value.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddStatisticParameters(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Object}})">
+            <summary>
+            Add multiple statistic parameters.
+            </summary>
+            <param name="parameters">Parameters to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddOrder(StockSharp.Reporting.ReportOrder)">
+            <summary>
+            Add an order.
+            </summary>
+            <param name="order">Order to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddOrder(System.Nullable{System.Int64},System.Int64,StockSharp.Messages.SecurityId,StockSharp.Messages.Sides,System.DateTime,System.Decimal,System.Nullable{StockSharp.Messages.OrderStates},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{StockSharp.Messages.OrderTypes})">
+            <summary>
+            Add an order with individual parameters.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddOrders(System.Collections.Generic.IEnumerable{StockSharp.Reporting.ReportOrder})">
+            <summary>
+            Add multiple orders.
+            </summary>
+            <param name="orders">Orders to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddTrade(StockSharp.Reporting.ReportTrade)">
+            <summary>
+            Add a trade.
+            </summary>
+            <param name="trade">Trade to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddTrade(System.Nullable{System.Int64},System.Int64,StockSharp.Messages.SecurityId,System.DateTime,System.Decimal,System.Decimal,System.Decimal,StockSharp.Messages.Sides,System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            Add a trade with individual parameters.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddTrades(System.Collections.Generic.IEnumerable{StockSharp.Reporting.ReportTrade})">
+            <summary>
+            Add multiple trades.
+            </summary>
+            <param name="trades">Trades to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddPosition(StockSharp.Reporting.ReportPosition)">
+            <summary>
+            Add a position round-trip.
+            </summary>
+            <param name="position">Position round-trip to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AddPositions(System.Collections.Generic.IEnumerable{StockSharp.Reporting.ReportPosition})">
+            <summary>
+            Add multiple position round-trips.
+            </summary>
+            <param name="positions">Positions to add.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.ClearPositions">
+            <summary>
+            Clear all positions.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AggregateOrders(System.TimeSpan)">
+            <summary>
+            Manually trigger orders aggregation.
+            </summary>
+            <param name="interval">Time interval for grouping. Use <see cref="F:System.TimeSpan.Zero"/> for no time grouping.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.AggregateTrades(System.TimeSpan)">
+            <summary>
+            Manually trigger trades aggregation.
+            </summary>
+            <param name="interval">Time interval for grouping. Use <see cref="F:System.TimeSpan.Zero"/> for no time grouping.</param>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.ClearOrders">
+            <summary>
+            Clear all orders.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.ClearTrades">
+            <summary>
+            Clear all trades.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.ClearParameters">
+            <summary>
+            Clear all parameters.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.ClearStatisticParameters">
+            <summary>
+            Clear all statistic parameters.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="M:StockSharp.Reporting.ReportSource.Clear">
+            <summary>
+            Clear all data.
+            </summary>
+            <returns>This instance for chaining.</returns>
+        </member>
+        <member name="T:StockSharp.Reporting.XmlReportGenerator">
+            <summary>
+            The report generator for the strategy in the xml format.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Reporting.XmlReportGenerator.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Reporting.XmlReportGenerator.Extension">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Reporting.XmlReportGenerator.OnGenerate(StockSharp.Reporting.IReportSource,System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

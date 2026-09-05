@@ -1,0 +1,7 @@
+# 大文件/运行时产物不提交
+WebUI/bin/
+WebUI/obj/
+ea/*.ex5
+data/storage/
+*.log
+output/

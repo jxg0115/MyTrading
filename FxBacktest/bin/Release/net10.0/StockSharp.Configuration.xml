@@ -1,0 +1,1167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockSharp.Configuration</name>
+    </assembly>
+    <members>
+        <member name="T:StockSharp.Configuration.AppStartSettings">
+            <summary>
+            Application start configuration.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.AppStartSettings.Language">
+            <summary>
+            Selected application language.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.AppStartSettings.Online">
+            <summary>
+            Online mode.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.AppStartSettings.TimeZone">
+            <summary>
+            Preferred application time zone.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppStartSettings.TryLoad(Ecng.IO.IFileSystem)">
+            <summary>
+            Try load settings, if config file exists.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppStartSettings.TrySave(Ecng.IO.IFileSystem)">
+            <summary>
+            Save settings into <see cref="F:StockSharp.Configuration.Paths.PlatformConfigurationFile"/> if it is defined.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.AppTime">
+            <summary>
+            Application-wide time conversion utilities respecting configured timezone.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.AppTime.TimeZone">
+            <summary>
+            Global application time zone.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppTime.ToAppTime(System.DateTime)">
+            <summary>
+            Convert a date-time (UTC/Local/Unspecified) to application time zone, mimicking TimeConverter logic.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppTime.ToApp(System.DateTimeOffset)">
+            <summary>
+            Convert DateTimeOffset to application time zone, mimicking TimeConverter logic.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppTime.FromUtc(System.DateTime)">
+            <summary>
+            Convert UTC <see cref="T:System.DateTime"/> to application time zone.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppTime.FromUtc(System.DateTimeOffset)">
+            <summary>
+            Convert UTC <see cref="T:System.DateTimeOffset"/> to application time zone.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.AppTime.FormatFromUtc(System.DateTime,System.String)">
+            <summary>
+            Format UTC <see cref="T:System.DateTime"/> with application timezone applied.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.ConfigurationServicesRegistry">
+            <summary>
+            Services registry.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.ConfigurationServicesRegistry.TryCredentialsProvider">
+            <summary>
+            <see cref="T:StockSharp.Configuration.ICredentialsProvider"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.ConfigurationServicesRegistry.CredentialsProvider">
+            <summary>
+            <see cref="T:StockSharp.Configuration.ICredentialsProvider"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.DefaultCredentialsProvider">
+            <summary>
+            Default implementation of <see cref="T:StockSharp.Configuration.ICredentialsProvider"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.DefaultCredentialsProvider"/>.
+            </remarks>
+            <param name="fileSystem">File system. If null, uses <see cref="F:StockSharp.Configuration.Paths.FileSystem"/>.</param>
+            <param name="credentialsFile">Credentials file path. If null, uses <see cref="F:StockSharp.Configuration.Paths.CredentialsFile"/>.</param>
+            <param name="companyPath">Company directory path. If null, uses <see cref="F:StockSharp.Configuration.Paths.CompanyPath"/>.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.DefaultCredentialsProvider.#ctor(Ecng.IO.IFileSystem,System.String,System.String)">
+            <summary>
+            Default implementation of <see cref="T:StockSharp.Configuration.ICredentialsProvider"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.DefaultCredentialsProvider"/>.
+            </remarks>
+            <param name="fileSystem">File system. If null, uses <see cref="F:StockSharp.Configuration.Paths.FileSystem"/>.</param>
+            <param name="credentialsFile">Credentials file path. If null, uses <see cref="F:StockSharp.Configuration.Paths.CredentialsFile"/>.</param>
+            <param name="companyPath">Company directory path. If null, uses <see cref="F:StockSharp.Configuration.Paths.CompanyPath"/>.</param>
+        </member>
+        <member name="T:StockSharp.Configuration.Extensions">
+            <summary>
+            Extension class.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.TryGetProductId">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.HasValidAdapterConstructor(System.Type)">
+            <summary>
+            Checks if the type has a public constructor accepting <see cref="T:Ecng.Common.IdGenerator"/>.
+            </summary>
+            <param name="type">Type to check.</param>
+            <returns><see langword="true"/> if the type has a valid adapter constructor.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.FindAdapters(System.String,System.Action{System.Exception})">
+            <summary>
+            Finds and returns adapter types in the specified directory.
+            Scans for assemblies starting with "StockSharp." (except a known exclusion list),
+            loads them, and collects types implementing <see cref="T:StockSharp.Messages.IMessageAdapter"/> (excluding dialects)
+            that have a public constructor accepting <see cref="T:Ecng.Common.IdGenerator"/>.
+            </summary>
+            <param name="dir">The directory path to scan for adapter assemblies (.dll files).</param>
+            <param name="errorHandler">An action to handle exceptions that occur during assembly loading.</param>
+            <returns>An enumeration of adapter <see cref="T:System.Type"/>s found in the directory.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.GetAdapters(System.Reflection.Assembly)">
+            <summary>
+            Gets adapter types from the specified assembly.
+            Filters types implementing <see cref="T:StockSharp.Messages.IMessageAdapter"/> (excluding dialects)
+            that have a public constructor accepting <see cref="T:Ecng.Common.IdGenerator"/>.
+            </summary>
+            <param name="assembly">Assembly to scan.</param>
+            <returns>An enumeration of adapter <see cref="T:System.Type"/>s found in the assembly.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.TryGetChannels">
+            <summary>
+            Try to get registered Telegram channels.
+            </summary>
+            <returns>Collection of channels or <see langword="null"/> if service is not registered.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.RegisterChannels(System.Collections.Generic.IEnumerable{Ecng.ComponentModel.ITelegramChannel})">
+            <summary>
+            Register collection of Telegram channels for subsequent access through configuration container.
+            </summary>
+            <param name="channels">Collection of channels to register.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Extensions.TryFindChannel(System.Int64)">
+            <summary>
+            Try to find the channel by the specified identifier.
+            </summary>
+            <param name="channelId">Channel id.</param>
+            <returns>Found channel or <see langword="null"/> if channel not found.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.ICredentialsProvider">
+            <summary>
+            Interface describing credentials provider.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.ICredentialsProvider.TryLoad(Ecng.ComponentModel.ServerCredentials@)">
+            <summary>
+            Try load credentials.
+            </summary>
+            <param name="credentials"><see cref="T:Ecng.ComponentModel.ServerCredentials"/>.</param>
+            <returns>Operation result.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ICredentialsProvider.Save(Ecng.ComponentModel.ServerCredentials,System.Boolean)">
+            <summary>
+            Save credentials.
+            </summary>
+            <param name="credentials"><see cref="T:Ecng.ComponentModel.ServerCredentials"/>.</param>
+            <param name="keepSecret">Save <see cref="P:Ecng.ComponentModel.ServerCredentials.Password"/> and <see cref="P:Ecng.ComponentModel.ServerCredentials.Token"/>.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.ICredentialsProvider.Delete">
+            <summary>
+            Delete credentials.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.TokenCredentialsProvider">
+            <summary>
+            In memory credentials provider.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.TokenCredentialsProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.TokenCredentialsProvider"/>.
+            </summary>
+            <param name="token">Token.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.TokenCredentialsProvider.#ctor(System.Security.SecureString)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.TokenCredentialsProvider"/>.
+            </summary>
+            <param name="token">Token.</param>
+        </member>
+        <member name="T:StockSharp.Configuration.ICurrentClientFetcher">
+            <summary>
+            Fetches the credentials of the currently signed-in client.
+            </summary>
+            <remarks>
+            The credentials dialog needs exactly one thing from the web API - who is signed in and with
+            what token - and this is that one thing. Stating it here, next to ICredentialsProvider, rather
+            than taking the web API's own client service keeps the dependency pointing the right way: the
+            dialog does not need to know the shape of the web API, and the caller, which already knows it,
+            supplies the implementation.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.Configuration.ICurrentClientFetcher.FetchAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Returns the signed-in client's email and access token.
+            </summary>
+            <param name="salt">
+            OAuth salt to wait on, or <see langword="null"/> for a plain "who am I" request.
+            </param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>The client's email and access token.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.InMemoryMessageAdapterProvider">
+            <summary>
+            In memory configuration message adapter's provider.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.InMemoryMessageAdapterProvider.#ctor(System.Collections.Generic.IEnumerable{StockSharp.Messages.IMessageAdapter},System.Type)">
+            <summary>
+            Initialize <see cref="T:StockSharp.Configuration.InMemoryMessageAdapterProvider"/>.
+            </summary>
+            <param name="currentAdapters">All currently available adapters.</param>
+            <param name="transportAdapter"><see cref="M:StockSharp.Configuration.InMemoryMessageAdapterProvider.CreateTransportAdapter(Ecng.Common.IdGenerator)"/></param>
+        </member>
+        <member name="P:StockSharp.Configuration.InMemoryMessageAdapterProvider.CurrentAdapters">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Configuration.InMemoryMessageAdapterProvider.PossibleAdapters">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Configuration.InMemoryMessageAdapterProvider.CreateStockSharpAdapters(Ecng.Common.IdGenerator,System.String,System.Security.SecureString)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Configuration.InMemoryMessageAdapterProvider.CreateTransportAdapter(Ecng.Common.IdGenerator)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Configuration.InvariantCultureSerializer">
+            <summary>
+            Invariant culture <see cref="T:Ecng.Serialization.ISerializer"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.SerializeInvariant(Ecng.Serialization.SettingsStorage,Ecng.IO.IFileSystem,System.String,System.Boolean)">
+            <summary>
+            Serialize the specified storage into file using <see cref="T:Ecng.IO.IFileSystem"/>.
+            </summary>
+            <param name="settings"><see cref="T:Ecng.Serialization.SettingsStorage"/></param>
+            <param name="fileSystem">File system.</param>
+            <param name="fileName">File name.</param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.DeserializeInvariant(Ecng.IO.IFileSystem,System.String)">
+            <summary>
+            Deserialize storage from the specified file using <see cref="T:Ecng.IO.IFileSystem"/>.
+            </summary>
+            <param name="fileSystem">File system.</param>
+            <param name="fileName">File name.</param>
+            <returns><see cref="T:Ecng.Serialization.SettingsStorage"/></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.SerializeInvariant(Ecng.Serialization.SettingsStorage,System.String,System.Boolean)">
+            <summary>
+            Serialize the specified storage into file.
+            </summary>
+            <param name="settings"><see cref="T:Ecng.Serialization.SettingsStorage"/></param>
+            <param name="fileName">File name.</param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.SerializeInvariant(Ecng.Serialization.IPersistable,System.Boolean)">
+            <summary>
+            Serialize the specified storage into byte array.
+            </summary>
+            <param name="settings"><see cref="T:Ecng.Serialization.IPersistable"/></param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+            <returns></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.SerializeInvariant(Ecng.Serialization.SettingsStorage,System.Boolean)">
+            <summary>
+            Serialize the specified storage into byte array.
+            </summary>
+            <param name="settings"><see cref="T:Ecng.Serialization.SettingsStorage"/></param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+            <returns></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.DeserializeInvariant(System.String)">
+            <summary>
+            Deserialize storage from the specified file.
+            </summary>
+            <param name="fileName">File name.</param>
+            <returns><see cref="T:Ecng.Serialization.SettingsStorage"/></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.DeserializeInvariant(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Deserialize storage from the specified file.
+            </summary>
+            <param name="fileName">File name.</param>
+            <param name="fileSystem">File system.</param>
+            <returns><see cref="T:Ecng.Serialization.SettingsStorage"/></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.DeserializeInvariant``1(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Deserialize storage from the specified file.
+            </summary>
+            <typeparam name="T">Type implemented <see cref="T:Ecng.Serialization.IPersistable"/>.</typeparam>
+            <param name="fileName">File name.</param>
+            <param name="fileSystem">File system.</param>
+            <returns><typeparamref name="T"/></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.InvariantCultureSerializer.DeserializeInvariant(System.Byte[])">
+            <summary>
+            Deserialize storage from the specified byte array.
+            </summary>
+            <param name="data">Data.</param>
+            <returns><see cref="T:Ecng.Serialization.SettingsStorage"/></returns>
+        </member>
+        <member name="T:StockSharp.Configuration.IOrderLogMarketDepthBuilderEditor">
+            <summary>
+            <see cref="T:StockSharp.Messages.IOrderLogMarketDepthBuilder"/> editor.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.ITransactionIdStorage">
+            <summary>
+            The interface describing the transaction and request identifiers storage.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.ITransactionIdStorage.Get(System.String,System.Boolean)">
+            <summary>
+            Get session based transaction and request identifiers storage.
+            </summary>
+            <param name="sessionId">Session identifier.</param>
+            <param name="persistable">Reuse session identifier.</param>
+            <returns>Session based transaction and request identifiers storage.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.ISessionTransactionIdStorage">
+            <summary>
+            The interface describing the session based transaction and request identifiers storage.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.TryGetRequestId(System.Int64,System.String@)">
+            <summary>
+            Try find request id by the specified transaction id.
+            </summary>
+            <param name="transactionId">Transaction ID.</param>
+            <param name="requestId">The found request identifier when method returns <see langword="true"/>; otherwise default.</param>
+            <returns><see langword="true"/> if request id was found for the specified transaction; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.TryGetTransactionId(System.String,System.Int64@)">
+            <summary>
+            Try find transaction id by the specified request id.
+            </summary>
+            <param name="requestId">The request identifier.</param>
+            <param name="transactionId">The found transaction id when method returns <see langword="true"/>; otherwise default.</param>
+            <returns><see langword="true"/> if transaction id was found for the specified request; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.CreateRequestId">
+            <summary>
+            Create request identifier.
+            </summary>
+            <returns>The request identifier.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.CreateTransactionId(System.String)">
+            <summary>
+            Create association.
+            </summary>
+            <param name="requestId">The request identifier.</param>
+            <returns>Transaction ID.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.RemoveRequestId(System.String)">
+            <summary>
+            Delete association.
+            </summary>
+            <param name="requestId">The request identifier.</param>
+            <returns><see langword="true"/> if association was removed successfully, otherwise, returns <see langword="false"/>.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.ISessionTransactionIdStorage.RemoveTransactionId(System.Int64)">
+            <summary>
+            Delete association.
+            </summary>
+            <param name="transactionId">Transaction ID.</param>
+            <returns><see langword="true"/> if association was removed successfully, otherwise, returns <see langword="false"/>.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.InMemoryTransactionIdStorage">
+            <summary>
+            In memory implementation of <see cref="T:StockSharp.Configuration.ITransactionIdStorage"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.InMemoryTransactionIdStorage"/>.
+            </remarks>
+            <param name="idGenerator">Transaction id generator.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.InMemoryTransactionIdStorage.#ctor(Ecng.Common.IdGenerator)">
+            <summary>
+            In memory implementation of <see cref="T:StockSharp.Configuration.ITransactionIdStorage"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.InMemoryTransactionIdStorage"/>.
+            </remarks>
+            <param name="idGenerator">Transaction id generator.</param>
+        </member>
+        <member name="T:StockSharp.Configuration.PlainTransactionIdStorage">
+            <summary>
+            Plain implementation of <see cref="T:StockSharp.Configuration.ITransactionIdStorage"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.Paths">
+            <summary>
+            System paths.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetNuGetGlobalPackagesFolder">
+            <summary>
+            Get NuGet global packages folder path.
+            </summary>
+            <returns>Path to NuGet global packages folder.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetAppDataPath(System.String,System.String)">
+            <summary>
+            Get <see cref="F:StockSharp.Configuration.Paths.AppDataPath"/>.
+            </summary>
+            <param name="appDataPath">Relative <see cref="F:StockSharp.Configuration.Paths.AppDataPath"/>.</param>
+            <param name="appName"><see cref="P:StockSharp.Configuration.Paths.AppName2"/></param>
+            <returns><see cref="F:StockSharp.Configuration.Paths.AppDataPath"/></returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetHistoryDataPath(System.String)">
+            <summary>
+            Get history data path.
+            </summary>
+            <param name="startDir">Directory.</param>
+            <returns>History data path.</returns>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.AppName">
+            <summary>
+            App title.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.AppName2">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.AppNameWithVersion">
+            <summary>
+            App title with version.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.CompanyPath">
+            <summary>
+            The path to directory with all applications.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.CredentialsFile">
+            <summary>
+            The path to the file with credentials.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.AppDataPath">
+            <summary>
+            The path to the settings directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.PythonUtilsPath">
+            <summary>
+            The path to the Python utils directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.ReportLogsPath">
+            <summary>
+            The path to the settings directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.PlatformConfigurationFile">
+            <summary>
+            The path to the configuration file of platform definition.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.ProxyConfigurationFile">
+            <summary>
+            The path to the configuration file of proxy settings.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.SecurityNativeIdDir">
+            <summary>
+            The path to the directory with native security identifiers.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.SecurityMappingDir">
+            <summary>
+            The path to the directory with securities id mapping.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.SecurityExtendedInfo">
+            <summary>
+            The path to the directory with securities extended info.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.StorageDir">
+            <summary>
+            The path to the directory with market data.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.SnapshotsDir">
+            <summary>
+            The path to the directory with snapshots of market data.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.CandlePatternsFile">
+            <summary>
+            The path to the file with candle patterns.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.CompilerCacheDir">
+            <summary>
+            The path to the compiler cache directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.LogsDir">
+            <summary>
+            The path to the logs directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.InstallerDir">
+            <summary>
+            The path to the installer directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.InstallerInstallationsConfigPath">
+            <summary>
+            The path to the installer directory.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.InstallerUIName">
+            <summary>
+            Installer UI exe name.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.InstallerConsoleName">
+            <summary>
+            Installer console exe name.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.SetupName">
+            <summary>
+            Setup name.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetWebSiteUrl">
+            <summary>
+            Get website url.
+            </summary>
+            <returns>Localized url.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetLogoUrl">
+            <summary>
+            Get logo url.
+            </summary>
+            <returns>Logo url.</returns>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.Chat">
+            <summary>
+            Chat on the web site.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths._siteLanguages">
+            <summary>
+            Languages the web site is published in.
+            </summary>
+            <remarks>
+            The site itself reads them from its domain rows, which nothing outside it can reach; kept in step with
+            that list by hand. A language missing from here is shown in English rather than 404.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.SiteLanguage">
+            <summary>
+            Language segment the site expects in its addresses, for the language the application is running in.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.Bot">
+            <summary>
+            Bot in Telegram.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.Paths.Pages">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Eula">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Pricing">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.NugetManual">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Message">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Topic">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.File">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Users">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Register">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Forgot">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Faq">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Store">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Login">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Pages.Profile">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetPageUrl(System.Int64,System.Object)">
+            <summary>
+            Get page url.
+            </summary>
+            <param name="id">Page id.</param>
+            <param name="urlPart">Url part (topic id, file name etc.).</param>
+            <returns>Localized url.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.TryBuildDocUrl(System.String)">
+            <summary>
+            Try to build documentation URL.
+            </summary>
+            <param name="urlPart">URL part.</param>
+            <returns>Absolute URL.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetDocUrl(System.String)">
+            <summary>
+            To create localized url.
+            </summary>
+            <param name="docUrl">Help topic.</param>
+            <returns>Localized url.</returns>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.EntryAssembly">
+            <summary>
+            Entry assembly.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.InstalledVersion">
+            <summary>
+            Installed version of the product.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.ResetInstalledVersionCache">
+            <summary>
+            Reset installed version cache so it would be re-generated next time when it's requested.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Paths.BuildVersion">
+            <summary>
+            Build info version.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.TryGetInstalledPath(System.Int64,Ecng.IO.IFileSystem)">
+            <summary>
+            Try get installed path by product id.
+            </summary>
+            <param name="productId">Identifier.</param>
+            <param name="fileSystem">File system.</param>
+            <returns>Installed path.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.TryGetInstalledVersion(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Get currently installed version of the product.
+            </summary>
+            <param name="productInstallPath">File system path to product installation.</param>
+            <param name="fileSystem">File system.</param>
+            <returns>Installed version of the product.</returns>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.HistoryDataPath">
+            <summary>
+            Sample history data.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.HistoryDefaultSecurity">
+            <summary>
+            Sample history data security.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.HistoryDefaultSecurity2">
+            <summary>
+            Sample history data security.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.HistoryBeginDate">
+            <summary>
+            Begin date of <see cref="F:StockSharp.Configuration.Paths.HistoryDataPath"/>.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.HistoryEndDate">
+            <summary>
+            End date of <see cref="F:StockSharp.Configuration.Paths.HistoryDataPath"/>.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.Birthday">
+            <summary>
+            Birthday.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.DefaultSettingsExt">
+            <summary>
+            Default extension for settings file.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.EnumerateConfigs(System.String,System.String)">
+            <summary>
+            Returns an files with <see cref="F:StockSharp.Configuration.Paths.DefaultSettingsExt"/> extension.
+            </summary>
+            <param name="path">The relative or absolute path to the directory to search.</param>
+            <param name="filter">The search string to match against the names of files in path.</param>
+            <returns>Files.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.EnumerateConfigs(System.String,Ecng.IO.IFileSystem,System.String)">
+            <summary>
+            Returns an files with <see cref="F:StockSharp.Configuration.Paths.DefaultSettingsExt"/> extension.
+            </summary>
+            <param name="path">The relative or absolute path to the directory to search.</param>
+            <param name="fileSystem">File system.</param>
+            <param name="filter">The search string to match against the names of files in path.</param>
+            <returns>Files.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.MakeBackup(System.String)">
+            <summary>
+            Make the specified <paramref name="filePath"/> with <see cref="F:Ecng.Common.FileExts.Backup"/> extension.
+            </summary>
+            <param name="filePath">File path.</param>
+            <returns>File path.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.MoveToBackup(System.String,Ecng.IO.IFileSystem,System.String)">
+            <summary>
+            Rename the specified file with <see cref="F:Ecng.Common.FileExts.Backup"/> extension.
+            </summary>
+            <param name="filePath">File path.</param>
+            <param name="fileSystem">File system.</param>
+            <param name="backupFilePath">Backup file path.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.CreateSerializer``1(System.Boolean)">
+            <summary>
+            Create serializer.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="bom">Serializer adds UTF8 BOM preamble.</param>
+            <returns>Serializer.</returns>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.FileSystem">
+            <summary>
+            Default file system.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.SerializeToString``1(``0,System.Boolean)">
+            <summary>
+            Serialize <paramref name="value"/> state into <see cref="T:System.String"/> value.
+            </summary>
+            <typeparam name="T">Type of <paramref name="value"/>.</typeparam>
+            <param name="value">Value.</param>
+            <param name="bom">Serializer adds UTF8 BOM preamble.</param>
+            <returns><see cref="T:System.String"/> value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeFromString``1(``0,System.String)">
+            <summary>
+            Deserialize <paramref name="value"/> state from <paramref name="str"/>.
+            </summary>
+            <typeparam name="T">Type of <paramref name="value"/>.</typeparam>
+            <param name="value">Value.</param>
+            <param name="str"><see cref="T:System.String"/> value.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Serialize``1(``0,System.String,System.Boolean)">
+            <summary>
+            Serialize value into the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="value">Value.</param>
+            <param name="filePath">File path.</param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Serialize``1(``0,System.Boolean)">
+            <summary>
+            Serialize value into byte array.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="value">Value.</param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+            <returns>Serialized data.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Deserialize``1(System.String)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeOrThrow``1(System.String)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeOrThrowAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Deserialize``1(System.Byte[])">
+            <summary>
+            Deserialize value from the serialized data.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="data">Serialized data.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Deserialize``1(System.IO.Stream)">
+            <summary>
+            Deserialize value from the serialized data.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="data">Serialized data.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Serialize``1(``0,Ecng.IO.IFileSystem,System.String,System.Boolean)">
+            <summary>
+            Serialize value into the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="value">Value.</param>
+            <param name="fileSystem">File system.</param>
+            <param name="filePath">File path.</param>
+            <param name="bom">Add UTF8 BOM preamble.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.Deserialize``1(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="fileSystem">File system.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeOrThrow``1(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="fileSystem">File system.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeAsync``1(System.String,Ecng.IO.IFileSystem,System.Threading.CancellationToken)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="fileSystem">File system.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.DeserializeOrThrowAsync``1(System.String,Ecng.IO.IFileSystem,System.Threading.CancellationToken)">
+            <summary>
+            Deserialize value from the specified file.
+            </summary>
+            <typeparam name="T">Value type.</typeparam>
+            <param name="filePath">File path.</param>
+            <param name="fileSystem">File system.</param>
+            <param name="cancellationToken"><see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.IsConfigExists(System.String,Ecng.IO.IFileSystem)">
+            <summary>
+            Determines the specified config file exists.
+            </summary>
+            <param name="configFile">Config file.</param>
+            <param name="fileSystem">File system.</param>
+            <returns>Check result.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.IsConfigExists(System.String)">
+            <summary>
+            Determines the specified config file exists.
+            </summary>
+            <param name="configFile">Config file.</param>
+            <returns>Check result.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetFileNameWithoutExtension(System.Guid,System.Nullable{System.Char})">
+            <summary>
+            Get file name without extension for the specified id.
+            </summary>
+            <param name="id">Identifier.</param>
+            <param name="by">Replacing character.</param>
+            <returns>File name without extension.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Paths.GetFileName(System.Guid)">
+            <summary>
+            Get file name for the specified id.
+            </summary>
+            <param name="id">Identifier.</param>
+            <returns>File name.</returns>
+        </member>
+        <member name="F:StockSharp.Configuration.Paths.TokenBasedEmail">
+            <summary>
+            <see cref="P:Ecng.ComponentModel.ServerCredentials.Email"/> in case <see cref="P:Ecng.ComponentModel.ServerCredentials.Token"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.PathsHolder">
+            <summary>
+            Predefined paths holder.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.PathsHolder.CompanyPath">
+            <summary>
+            <see cref="F:StockSharp.Configuration.Paths.CompanyPath"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.PathsHolder.AppDataPath">
+            <summary>
+            <see cref="F:StockSharp.Configuration.Paths.AppDataPath"/>
+            </summary>
+        </member>
+        <member name="T:StockSharp.Configuration.Permissions.FileCredentialsStorage">
+            <summary>
+            File-based storage for <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.Permissions.FileCredentialsStorage"/>.
+            </remarks>
+            <param name="fileSystem">File system.</param>
+            <param name="fileName">File name to persist credentials.</param>
+            <param name="asEmail">Use email as login. If <see langword="false"/>, then login can be any string.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.FileCredentialsStorage.#ctor(Ecng.IO.IFileSystem,System.String,System.Boolean)">
+            <summary>
+            File-based storage for <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/>.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.Permissions.FileCredentialsStorage"/>.
+            </remarks>
+            <param name="fileSystem">File system.</param>
+            <param name="fileName">File name to persist credentials.</param>
+            <param name="asEmail">Use email as login. If <see langword="false"/>, then login can be any string.</param>
+        </member>
+        <member name="T:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage">
+            <summary>
+            Abstraction for permission credentials storage.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage.SearchAsync(System.String)">
+            <summary>
+            Find credentials by login pattern. Use '*' to match any sequence; pass "*" to return all.
+            </summary>
+            <param name="loginPattern">Login pattern (supports '*').</param>
+            <returns>Matched credentials.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage.SaveAsync(StockSharp.Configuration.Permissions.PermissionCredentials,System.Threading.CancellationToken)">
+            <summary>
+            Save credentials (add or update by login).
+            </summary>
+            <param name="credentials">Credentials to persist.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage.DeleteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Delete credentials by login.
+            </summary>
+            <param name="login">Login.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Operation result.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.Permissions.PermissionCredentials">
+            <summary>
+            Credentials with set of permissions.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentials.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Permissions.PermissionCredentials.IpRestrictions">
+            <summary>
+            IP address restrictions.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.Permissions.PermissionCredentials.Permissions">
+            <summary>
+            Permission set.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentials.Save(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentials.Load(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Configuration.Permissions.PermissionCredentialsAuthorization">
+            <summary>
+            The module of the connection access check based on the <see cref="T:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage"/> authorization.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentialsAuthorization"/>.
+            </remarks>
+            <param name="storage">Storage for <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/>.</param>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentialsAuthorization.#ctor(StockSharp.Configuration.Permissions.IPermissionCredentialsStorage)">
+            <summary>
+            The module of the connection access check based on the <see cref="T:StockSharp.Configuration.Permissions.IPermissionCredentialsStorage"/> authorization.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentialsAuthorization"/>.
+            </remarks>
+            <param name="storage">Storage for <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/>.</param>
+        </member>
+        <member name="T:StockSharp.Configuration.Permissions.PermissionCredentialsExtensions">
+            <summary>
+            Extensions.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentialsExtensions.ToCredentials(StockSharp.Messages.UserInfoMessage)">
+            <summary>
+            Convert <see cref="T:StockSharp.Messages.UserInfoMessage"/> to <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/> value.
+            </summary>
+            <param name="message">The message contains information about user.</param>
+            <returns>Credentials with set of permissions.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentialsExtensions.ToUserInfoMessage(StockSharp.Configuration.Permissions.PermissionCredentials,System.Boolean)">
+            <summary>
+            Convert <see cref="T:StockSharp.Configuration.Permissions.PermissionCredentials"/> to <see cref="T:StockSharp.Messages.UserInfoMessage"/> value.
+            </summary>
+            <param name="credentials">Credentials with set of permissions.</param>
+            <param name="copyPassword">Copy <see cref="P:Ecng.ComponentModel.ServerCredentials.Password"/> value.</param>
+            <returns>The message contains information about user.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentialsExtensions.GetAllAsync(StockSharp.Configuration.Permissions.IPermissionCredentialsStorage)">
+            <summary>
+            Get all credentials.
+            </summary>
+            <param name="storage">The storage to be used.</param>
+            <returns>All stored credentials.</returns>
+        </member>
+        <member name="M:StockSharp.Configuration.Permissions.PermissionCredentialsExtensions.TryGetByLoginAsync(StockSharp.Configuration.Permissions.IPermissionCredentialsStorage,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Find credentials by exact login.
+            </summary>
+            <param name="storage">Credentials storage.</param>
+            <param name="login">Login.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Credentials with permissions or <c>null</c> if not found.</returns>
+        </member>
+        <member name="T:StockSharp.Configuration.ProductIdAttribute">
+            <summary>
+            Product id attribute.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.ProductIdAttribute.ProductId">
+            <summary>
+            Product id.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Configuration.ProductIdAttribute.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Configuration.ProductIdAttribute"/>.
+            </summary>
+            <param name="productId"><see cref="P:StockSharp.Configuration.ProductIdAttribute.ProductId"/></param>
+        </member>
+        <member name="T:StockSharp.Configuration.SubscriptionConfig">
+            <summary>
+            Represents a persisted market data subscription configuration.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.Security">
+            <summary>
+            <see cref="T:StockSharp.Messages.SecurityId"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.DataType">
+            <summary>
+            Market data type identifier (for example: Level1, MarketDepth, Trades, Candles).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.BuildMode">
+            <summary>
+            Build mode for derived data (when data needs to be built from another source).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.BuildFrom">
+            <summary>
+            Source data type used to build the requested data (e.g., build candles from trades).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.BuildField">
+            <summary>
+            Field used during building (for example, a price or volume field name).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.From">
+            <summary>
+            Optional start time (UTC) of the requested data interval.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.To">
+            <summary>
+            Optional end time (UTC) of the requested data interval.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.Count">
+            <summary>
+            Optional maximum number of data items to request.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Configuration.SubscriptionConfig.MaxDepth">
+            <summary>
+            Optional maximum depth for order book data.
+            </summary>
+        </member>
+    </members>
+</doc>

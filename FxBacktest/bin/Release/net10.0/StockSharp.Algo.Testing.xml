@@ -1,0 +1,1575 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockSharp.Algo.Testing</name>
+    </assembly>
+    <members>
+        <member name="T:StockSharp.Algo.Testing.BaseEmulationConnector">
+            <summary>
+            The base connection of emulation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.#ctor(StockSharp.Algo.Testing.EmulationMessageAdapter,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.BaseEmulationConnector"/>.
+            </summary>
+            <param name="emulationAdapter">Emulation message adapter.</param>
+            <param name="applyHeartbeat">Apply on/off heartbeat mode for the specified adapter.</param>
+            <param name="initChannels">Initialize channels.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.BaseEmulationConnector.Portfolios">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.BaseEmulationConnector.CurrentTime">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.BaseEmulationConnector.UnsubscribeOnDisconnect">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.BaseEmulationConnector.EmulationAdapter">
+            <summary>
+            The adapter, executing messages in <see cref="T:StockSharp.Algo.Testing.IMarketEmulator"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.Load(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.Save(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.OnProcessMessage(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.ClearCacheAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.DisposeManaged">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterTrades(StockSharp.Algo.Testing.Generation.TradeGenerator)">
+            <summary>
+            To register the trades generator.
+            </summary>
+            <param name="generator">The trades generator.</param>
+            <returns>Subscription.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.UnRegisterTrades(StockSharp.Algo.Testing.Generation.TradeGenerator)">
+            <summary>
+            To delete the trades generator, registered earlier through <see cref="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterTrades(StockSharp.Algo.Testing.Generation.TradeGenerator)"/>.
+            </summary>
+            <param name="generator">The trades generator.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterMarketDepth(StockSharp.Algo.Testing.Generation.MarketDepthGenerator)">
+            <summary>
+            To register the order books generator.
+            </summary>
+            <param name="generator">The order books generator.</param>
+            <returns>Subscription.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.UnRegisterMarketDepth(StockSharp.Algo.Testing.Generation.MarketDepthGenerator)">
+            <summary>
+            To delete the order books generator, earlier registered through <see cref="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterMarketDepth(StockSharp.Algo.Testing.Generation.MarketDepthGenerator)"/>.
+            </summary>
+            <param name="generator">The order books generator.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterOrderLog(StockSharp.Algo.Testing.Generation.OrderLogGenerator)">
+            <summary>
+            To register the orders log generator.
+            </summary>
+            <param name="generator">The orders log generator.</param>
+            <returns>Subscription.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.BaseEmulationConnector.UnRegisterOrderLog(StockSharp.Algo.Testing.Generation.OrderLogGenerator)">
+            <summary>
+            To delete the orders log generator, earlier registered through <see cref="M:StockSharp.Algo.Testing.BaseEmulationConnector.RegisterOrderLog(StockSharp.Algo.Testing.Generation.OrderLogGenerator)"/>.
+            </summary>
+            <param name="generator">The orders log generator.</param>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.CommissionRuleMessage">
+            <summary>
+            The message, containing information on the commission calculation rule.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.CommissionRuleMessage.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.CommissionRuleMessage"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.CommissionRuleMessage.Rule">
+            <summary>
+            The commission calculating rule.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.CommissionRuleMessage.PortfolioName">
+            <summary>
+            The portfolio name. If it is given, then <see cref="P:StockSharp.Algo.Testing.CommissionRuleMessage.Rule"/> is applied to specific portfolio.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.CommissionRuleMessage.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.CommissionRuleMessage"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.EmulationMessageAdapter">
+            <summary>
+            Emulation message adapter.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.#ctor(StockSharp.Messages.IMessageAdapter,StockSharp.Messages.IMessageChannel,System.Boolean,StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider)">
+            <summary>
+            Initialize <see cref="T:StockSharp.Algo.Testing.EmulationMessageAdapter"/>.
+            </summary>
+            <param name="innerAdapter">Underlying adapter.</param>
+            <param name="inChannel">Incoming messages channel.</param>
+            <param name="isEmulationOnly">All messages do not contains real trading.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="exchangeInfoProvider">Exchanges and trading boards provider.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.Emulator">
+            <summary>
+            Emulator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.Settings">
+            <summary>
+            Settings of exchange emulator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.InChannel">
+            <summary>
+            Incoming messages channel.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.SupportedInMessages">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.IsPositionsEmulationRequired">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationMessageAdapter.IsSupportTransactionLog">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.OnSendInMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.InnerAdapterNewOutMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.OnInnerAdapterNewOutMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.Save(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.Load(Ecng.Serialization.SettingsStorage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.EmulationMessageAdapter.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.EmulationMessageAdapter"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.EmulationOrderCondition">
+            <summary>
+            <see cref="T:StockSharp.Algo.Testing.IMarketEmulator"/> order condition.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationOrderCondition.IsTakeProfit">
+            <summary>
+            Is take profit.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.EmulationOrderCondition.StopPrice">
+            <summary>
+            Stop-price.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Emulation.MarketEmulator">
+            <summary>
+            Market emulator v2 with modular architecture.
+            Wraps <see cref="T:StockSharp.MatchingEngine.MatchingEngineAdapter"/> and adds emulation-specific logic
+            (random volumes, tick/L1→orderbook conversion, candle matching, commissions, price limits).
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.#ctor(StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider,Ecng.Common.IdGenerator)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.SecurityProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.PortfolioProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.ExchangeInfoProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.TransactionIdGenerator">
+            <summary>
+            Transaction id generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.Settings">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.RandomProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.OrderIdGenerator">
+            <summary>
+            Order ID generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.TradeIdGenerator">
+            <summary>
+            Trade ID generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.ProcessedMessageCount">
+            <summary>
+            Processed message count.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.CurrentTime">
+            <inheritdoc />
+        </member>
+        <member name="E:StockSharp.Algo.Testing.Emulation.MarketEmulator.NewOutMessageAsync">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.VerifyMode">
+            <summary>
+            Extended verification mode.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.PortfolioManager">
+            <summary>
+            Portfolio manager for handling portfolio state.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.GetSecurityState(StockSharp.Messages.SecurityId)">
+            <summary>
+            State the emulation keeps for one security: its book, its orders and its definition.
+            </summary>
+            <param name="securityId">Security to read.</param>
+            <returns>The state.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.StockSharp#Messages#IMessageTransport#SendInMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.CheckLimitOrders(StockSharp.Messages.SecurityId,System.Nullable{System.Decimal},System.DateTime,System.Collections.Generic.List{StockSharp.Messages.Message})">
+            <summary>
+            Re-evaluate resting limit orders against the current order book and execute the ones the
+            market has moved through. Unlike stop orders, limit orders are otherwise matched only at
+            registration time, so a tick/quote trading through a resting limit would leave it sitting
+            in the book and later fill at a price the market has left behind.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.GetCandleExecutionPrice(System.Nullable{StockSharp.Messages.OrderTypes},System.Decimal,StockSharp.Messages.CandleMessage)">
+            <summary>
+            Price a candle fills an order at: the order's own price when it names one, the candle's mid
+            (its close when the mid falls outside the candle) for a market order.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.MatchOrderByCandle(StockSharp.MatchingEngine.EmulatorOrder,StockSharp.Messages.CandleMessage,System.Boolean)">
+            <summary>
+            Match order against candle data directly.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.MarketEmulator.PossibleSupportedMessages">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.MarketEmulator.SendOutMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <summary>
+            Send out message.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Emulation.SecurityEmulator">
+            <summary>
+            Security-specific emulator state.
+            Handles emulation-specific logic: tick→orderbook, L1→orderbook, candle storage, price limits.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.SecurityEmulator.#ctor(StockSharp.Algo.Testing.Emulation.MarketEmulator,StockSharp.MatchingEngine.MatchingEngineAdapter,StockSharp.Messages.SecurityId)">
+            <summary>
+            Security-specific emulator state.
+            Handles emulation-specific logic: tick→orderbook, L1→orderbook, candle storage, price limits.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Emulation.SecurityEmulator.IsCandleMatchingMode">
+            <summary>
+            True when order book was populated from candle data.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Emulation.SecurityEmulator.OnQuoteChange">
+            <summary>
+            Called when QuoteChange is received - exit candle matching mode.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.GeneratorMessage">
+            <summary>
+            The message about creation or deletion of the market data generator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.GeneratorMessage.Generator">
+            <summary>
+            The market data generator.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.GeneratorMessage.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.GeneratorMessage"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.GeneratorMessage.CopyTo(StockSharp.Algo.Testing.Generation.GeneratorMessage)">
+            <summary>
+            Copy the message into the <paramref name="destination" />.
+            </summary>
+            <param name="destination">The object, to which copied information.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.GeneratorMessage.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.Generation.GeneratorMessage"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.MarketDataGenerator">
+            <summary>
+            The market data generator.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Initialize <see cref="T:StockSharp.Algo.Testing.Generation.MarketDataGenerator"/>.
+            </summary>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.DataType">
+            <summary>
+            Market data type.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.RandomArrayLength">
+            <summary>
+            The length of massive of preliminarily generated random numbers. The default is 100.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.RandomProvider">
+            <summary>
+            Where the generated values come from.
+            </summary>
+            <remarks>
+            Left alone the series differs on every run, which is right for a demonstration and wrong for
+            a measurement: a backtest taken on generated data cannot be compared with another unless
+            both ran on the same series. Given a seeded source, <see cref="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Init"/> lays out the same
+            numbers again.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Init">
+            <summary>
+            To initialize the generator state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.SecurityId">
+            <summary>
+            The identifier of the instrument, for which data shall be generated.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.SecurityDefinition">
+            <summary>
+            Information about the trading instrument.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.LastGenerationTime">
+            <summary>
+            The time of last data generation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Interval">
+            <summary>
+            The data generation interval.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxVolume">
+            <summary>
+            The maximal volume. The volume will be selected randomly from <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MinVolume"/> to <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxVolume"/>.
+            </summary>
+            <remarks>
+            The default value equals 20.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MinVolume">
+            <summary>
+            The minimal volume. The volume will be selected randomly from <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MinVolume"/> to <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxVolume"/>.
+            </summary>
+            <remarks>
+            The default value is 1.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxPriceStepCount">
+            <summary>
+            The maximal number of price increments <see cref="P:StockSharp.BusinessEntities.Security.PriceStep"/> to be returned through massive <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Steps"/>.
+            </summary>
+            <remarks>
+            The default value is 10.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Process(StockSharp.Messages.Message)">
+            <summary>
+            Process message.
+            </summary>
+            <param name="message">Message.</param>
+            <returns>The result of processing. If <see langword="null" /> is returned, then generator has no sufficient data to generate new message.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.OnProcess(StockSharp.Messages.Message)">
+            <summary>
+            Process message.
+            </summary>
+            <param name="message">Message.</param>
+            <returns>The result of processing. If <see langword="null" /> is returned, then generator has no sufficient data to generate new message.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.IsTimeToGenerate(System.DateTime)">
+            <summary>
+            Is new data generation required.
+            </summary>
+            <param name="time">The current time.</param>
+            <returns><see langword="true" />, if data shall be generated, Otherwise, <see langword="false" />.</returns>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Volumes">
+            <summary>
+            The massive of random volumes in the range from <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MinVolume"/> to <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxVolume"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.Steps">
+            <summary>
+            The massive of random price increments in the range from 1 to <see cref="P:StockSharp.Algo.Testing.Generation.MarketDataGenerator.MaxPriceStepCount"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDataGenerator.CopyTo(StockSharp.Algo.Testing.Generation.MarketDataGenerator)">
+            <summary>
+            Copy the message into the <paramref name="destination" />.
+            </summary>
+            <param name="destination">The object, to which copied information.</param>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.MarketDepthGenerator">
+            <summary>
+            The order book generator using random method.
+            </summary>
+            <remarks>
+            Initialize <see cref="T:StockSharp.Algo.Testing.Generation.MarketDepthGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            The order book generator using random method.
+            </summary>
+            <remarks>
+            Initialize <see cref="T:StockSharp.Algo.Testing.Generation.MarketDepthGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.DataType">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.UseTradeVolume">
+            <summary>
+            To use to generate best quotes in the order book volume of history trades.
+            </summary>
+            <remarks>
+            The default value is <see langword="true" />.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MinSpreadStepCount">
+            <summary>
+            The minimal value of spread between the best quotes in units of price increments number. The spread value will be selected randomly between <see cref="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MinSpreadStepCount"/> and <see cref="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxSpreadStepCount"/>.
+            </summary>
+            <remarks>
+            The default value is 1.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxSpreadStepCount">
+            <summary>
+            The maximal value of spread between the best quotes in units of price increments number. The spread value will be selected randomly between <see cref="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MinSpreadStepCount"/> and <see cref="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxSpreadStepCount"/>.
+            </summary>
+            <remarks>
+            The default value is <see cref="F:System.Int32.MaxValue"/>.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxBidsDepth">
+            <summary>
+            The maximal depth of bids.
+            </summary>
+            <remarks>
+            The default value is 10.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxAsksDepth">
+            <summary>
+            The maximal depth of offers.
+            </summary>
+            <remarks>
+            The default value is 10.
+            </remarks>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.GenerateDepthOnEachTrade">
+            <summary>
+            Shall order books be generated after each trade. The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.GenerateOrdersCount">
+            <summary>
+            Generate <see cref="P:StockSharp.Messages.QuoteChange.OrdersCount"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.Init">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.MaxGenerations">
+            <summary>
+            The maximal number of generations after last occurrence of source data for the order book.
+            </summary>
+            <remarks>
+            The default value equals 20.
+            </remarks>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.CreateQuote(System.Decimal,StockSharp.Messages.Sides)">
+            <summary>
+            To create the quote using random method.
+            </summary>
+            <param name="startPrice">The initial price, based on which a quote price shall be got using random method.</param>
+            <param name="side">The quote direction.</param>
+            <returns>The random quote.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.MarketDepthGenerator.CopyTo(StockSharp.Algo.Testing.Generation.MarketDepthGenerator)">
+            <summary>
+            Copy the message into the <paramref name="destination" />.
+            </summary>
+            <param name="destination">The object, to which copied information.</param>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator">
+            <summary>
+            The order book generator, accounting for trades sequence.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            The order book generator, accounting for trades sequence.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator.Init">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator.OnProcess(StockSharp.Messages.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.Generation.TrendMarketDepthGenerator"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.OrderLogGenerator">
+            <summary>
+            The orders log generator using random method.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.OrderLogGenerator"/>.
+            </summary>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.#ctor(StockSharp.Messages.SecurityId,StockSharp.Algo.Testing.Generation.TradeGenerator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.OrderLogGenerator"/>.
+            </summary>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+            <param name="tradeGenerator">Tick trades generator using random method.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.OrderLogGenerator.DataType">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.OrderLogGenerator.TradeGenerator">
+            <summary>
+            Tick trades generator using random method.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.OrderLogGenerator.IdGenerator">
+            <summary>
+            The order identifier generator <see cref="P:StockSharp.BusinessEntities.Order.Id"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.Init">
+            <summary>
+            To initialize the generator state.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.Process(StockSharp.Messages.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.OnProcess(StockSharp.Messages.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.OrderLogGenerator.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.Generation.MarketDataGenerator"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.TradeGenerator">
+            <summary>
+            Tick trades generator using random method.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.TradeGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            Initialize <see cref="T:StockSharp.Algo.Testing.Generation.TradeGenerator"/>.
+            </summary>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.TradeGenerator.DataType">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.TradeGenerator.IdGenerator">
+            <summary>
+            The trade identifier generator <see cref="P:StockSharp.Messages.ExecutionMessage.TradeId"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator">
+            <summary>
+            The trade generator based on normal distribution.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator.#ctor(StockSharp.Messages.SecurityId)">
+            <summary>
+            The trade generator based on normal distribution.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator"/>.
+            </remarks>
+            <param name="securityId">The identifier of the instrument, for which data shall be generated.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator.Init">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator.GenerateOriginSide">
+            <summary>
+            To generate the value for <see cref="P:StockSharp.Messages.ExecutionMessage.OriginSide"/>. By default is disabled.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator.OnProcess(StockSharp.Messages.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator.Clone">
+            <summary>
+            Create a copy of <see cref="T:StockSharp.Algo.Testing.Generation.RandomWalkTradeGenerator"/>.
+            </summary>
+            <returns>Copy.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.HistoryEmulationConnector">
+            <summary>
+            The emulation connection. It uses historical data and/or occasionally generated.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.BusinessEntities.ISecurityProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securityProvider">The provider of information about instruments.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.Algo.Storages.IStorageRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="storageRegistry">Market data storage.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(System.Collections.Generic.IEnumerable{StockSharp.BusinessEntities.Security},System.Collections.Generic.IEnumerable{StockSharp.BusinessEntities.Portfolio})">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securities">Instruments, which will be sent through the <see cref="E:StockSharp.Algo.Connector.SecurityReceived"/> event.</param>
+            <param name="portfolios">Portfolios, which will be sent through the <see cref="E:StockSharp.Algo.Connector.PortfolioReceived"/> event.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(System.Collections.Generic.IEnumerable{StockSharp.BusinessEntities.Security},System.Collections.Generic.IEnumerable{StockSharp.BusinessEntities.Portfolio},StockSharp.Algo.Storages.IStorageRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securities">Instruments, the operation will be performed with.</param>
+            <param name="portfolios">Portfolios, the operation will be performed with.</param>
+            <param name="storageRegistry">Market data storage.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.BusinessEntities.ISecurityProvider,System.Collections.Generic.IEnumerable{StockSharp.BusinessEntities.Portfolio})">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolios">Portfolios, the operation will be performed with.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="exchangeInfoProvider">Exchanges and trading boards provider.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider,StockSharp.Algo.Storages.IStorageRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="storageRegistry">Market data storage.</param>
+            <param name="exchangeInfoProvider">Exchanges and trading boards provider.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.#ctor(StockSharp.Messages.IMessageAdapter,System.Boolean,StockSharp.Messages.IMessageChannel,StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryEmulationConnector"/>.
+            </summary>
+            <param name="innerAdapter">Underlying adapter.</param>
+            <param name="ownInnerAdapter">Control <paramref name="innerAdapter"/> lifetime.</param>
+            <param name="inChannel">Incoming messages channel.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="exchangeInfoProvider">Exchanges and trading boards provider.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.RiskManager">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.SupportSnapshots">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.HistoryMessageAdapter">
+            <summary>
+            The adapter, receiving messages form the storage <see cref="T:StockSharp.Algo.Storages.IStorageRegistry"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.State">
+            <summary>
+            The emulator state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.StopOnSubscriptionError">
+            <summary>
+            Call <see cref="M:StockSharp.Algo.Connector.Disconnect"/> when any <see cref="T:StockSharp.BusinessEntities.Subscription"/> failed.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.MaxMessageCount">
+            <summary>
+            Maximum number of messages processed during backtesting. Negative value means the option is ignored.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.RaiseSubscriptionFailed(StockSharp.BusinessEntities.Subscription,System.Exception,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="E:StockSharp.Algo.Testing.HistoryEmulationConnector.StateChanged">
+            <summary>
+            The event on the emulator state change <see cref="P:StockSharp.Algo.Testing.HistoryEmulationConnector.State"/>.
+            </summary>
+        </member>
+        <member name="E:StockSharp.Algo.Testing.HistoryEmulationConnector.StateChanged2">
+            <summary>
+            The event on the emulator state change <see cref="P:StockSharp.Algo.Testing.HistoryEmulationConnector.State"/>.
+            </summary>
+        </member>
+        <member name="E:StockSharp.Algo.Testing.HistoryEmulationConnector.ProgressChanged">
+            <summary>
+            Progress changed event.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.IsFinished">
+            <summary>
+            Has the emulator ended its operation due to end of data, or it was interrupted through the <see cref="M:StockSharp.BusinessEntities.IConnector.Disconnect"/>method.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.MarketTimeChangedInterval">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.CommissionRules">
+            <summary>
+            Commission rules.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryEmulationConnector.EmulationSettings">
+            <summary>
+            <see cref="P:StockSharp.Algo.Testing.EmulationMessageAdapter.Settings"/>
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.ClearCacheAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.OnConnectAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.OnDisconnectAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.DisposeManaged">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            To start the emulation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.SuspendAsync(System.Threading.CancellationToken)">
+            <summary>
+            To suspend the emulation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryEmulationConnector.OnProcessMessage(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Algo.Testing.HistoryMarketDataManager">
+            <summary>
+            History market data manager implementation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.#ctor(StockSharp.Algo.Testing.ITradingTimeLineGenerator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryMarketDataManager"/>.
+            </summary>
+            <param name="timeLineGenerator">Trading time line generator.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.StartDate">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.StopDate">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.MarketTimeChangedInterval">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.PostTradeMarketTimeChangedCount">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.CheckTradableDates">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.StorageRegistry">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.Drive">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.StorageFormat">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.StorageCache">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.AdapterCache">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.LoadedMessageCount">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.CurrentTime">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMarketDataManager.IsStarted">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.SubscribeAsync(StockSharp.Messages.MarketDataMessage,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.Unsubscribe(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.RegisterGenerator(StockSharp.Messages.SecurityId,StockSharp.Messages.DataType,StockSharp.Algo.Testing.Generation.MarketDataGenerator,System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.UnregisterGenerator(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.HasGenerator(StockSharp.Messages.SecurityId,StockSharp.Messages.DataType)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.GetSupportedDataTypesAsync(StockSharp.Messages.SecurityId)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.StartAsync(System.Collections.Generic.IEnumerable{StockSharp.Messages.BoardMessage})">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.Reset">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.DriveGenerators(StockSharp.Messages.Message,System.DateTime)">
+            <summary>
+            Drives the registered generators with the replay clock and same-security data, returning any
+            generated messages (interleaved by the caller at the same server time). A time signal advances
+            time-based generation for every generator; the triggering message feeds the generators of its own
+            security, and each generated message is chained into the other same-security generators, so a
+            generated tick drives that security's order-book generator. Generators ignore their own output
+            type, so the chain terminates.
+            </summary>
+            <param name="trigger">The replayed message that advanced the clock.</param>
+            <param name="time">The current replay server time.</param>
+            <returns>The generated messages, if any.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMarketDataManager.DisposeManaged">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Algo.Testing.HistoryMessageAdapter">
+            <summary>
+            The adapter, receiving messages form the storage <see cref="T:StockSharp.Algo.Storages.IStorageRegistry"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.SecurityProvider">
+            <summary>
+            The provider of information about instruments.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.LoadedMessageCount">
+            <summary>
+            The number of loaded events.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.PostTradeMarketTimeChangedCount">
+            <summary>
+            The number of the event <see cref="E:StockSharp.BusinessEntities.ITimeProvider.CurrentTimeChanged"/> calls after end of trading.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.StorageRegistry">
+            <summary>
+            Market data storage.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.Drive">
+            <summary>
+            The storage which is used by default.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.StorageFormat">
+            <summary>
+            The format of market data.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.MarketTimeChangedInterval">
+            <summary>
+            The interval of message <see cref="T:StockSharp.Messages.TimeMessage"/> generation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.StartDate">
+            <summary>
+            Date in history for starting the paper trading.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.StopDate">
+            <summary>
+            Date in history to stop the paper trading (date is included).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.CheckTradableDates">
+            <summary>
+            Check loading dates are they tradable.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.StorageCache">
+            <summary>
+            <see cref="P:StockSharp.Algo.Storages.BasketMarketDataStorage`1.Cache"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.AdapterCache">
+            <summary>
+            <see cref="T:StockSharp.Algo.Storages.MarketDataStorageCache"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.OrderLogMarketDepthBuilders">
+            <summary>
+            Order book builders.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.CreateOrderLogMarketDepthBuilder(StockSharp.Messages.SecurityId)">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.CurrentTime">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.UseOutChannel">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.HistoryMessageAdapter.IsFullCandlesOnly">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.IsSupportCandlesUpdates(StockSharp.Messages.MarketDataMessage)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.IsAllDownloadingSupported(StockSharp.Messages.DataType)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.#ctor(Ecng.Common.IdGenerator,StockSharp.BusinessEntities.ISecurityProvider,StockSharp.Algo.Testing.IHistoryMarketDataManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.HistoryMessageAdapter"/>.
+            </summary>
+            <param name="transactionIdGenerator">Transaction id generator.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="marketDataManager">Market data manager.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.GetSupportedMarketDataTypesAsync(StockSharp.Messages.SecurityId,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.OnSendInMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.DisposeManaged">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.HistoryMessageAdapter.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Algo.Testing.HistoryMessageTypes">
+            <summary>
+            Extended <see cref="T:StockSharp.Messages.MessageTypes"/>.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.HistoryMessageTypes.Generator">
+            <summary>
+            <see cref="T:StockSharp.Algo.Testing.Generation.GeneratorMessage"/>.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.HistoryMessageTypes.CommissionRule">
+            <summary>
+            <see cref="T:StockSharp.Algo.Testing.CommissionRuleMessage"/>.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.IEmulationRandomizer">
+            <summary>
+            Provides random values for market emulation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IEmulationRandomizer.NextVolume">
+            <summary>
+            Gets next random volume for synthetic order book generation.
+            </summary>
+            <returns>Random volume.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IEmulationRandomizer.NextSpreadStep(System.Int32)">
+            <summary>
+            Gets next spread step multiplier for order book generation.
+            </summary>
+            <param name="maxSpreadSize">Maximum spread size from settings.</param>
+            <returns>Spread step multiplier (1 to maxSpreadSize).</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IEmulationRandomizer.ShouldMatch">
+            <summary>
+            Determines whether order should be matched when processing order book changes.
+            </summary>
+            <returns>True if should match.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IEmulationRandomizer.ShouldFail(System.Double)">
+            <summary>
+            Determines whether operation should fail (for failure simulation).
+            </summary>
+            <param name="failingPercent">Failing percentage from settings (0-100).</param>
+            <returns>True if should fail.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.DefaultEmulationRandomizer">
+            <summary>
+            The decisions an emulated venue makes, drawn from a source of random values.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.#ctor">
+            <summary>
+            Initializes a new instance with a source nobody holds the seed of, so runs vary.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance drawing from the stated point, so the run can be had again.
+            </summary>
+            <param name="seed">Where the series starts.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.#ctor(Ecng.Common.IRandomProvider)">
+            <summary>
+            Initializes a new instance drawing from the given source.
+            </summary>
+            <param name="random">Source of random values.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.NextVolume">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.NextSpreadStep(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.ShouldMatch">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.DefaultEmulationRandomizer.ShouldFail(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Algo.Testing.IHistoryMarketDataManager">
+            <summary>
+            Interface for history market data manager.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.StartDate">
+            <summary>
+            Date in history for starting.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.StopDate">
+            <summary>
+            Date in history to stop (date is included).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.MarketTimeChangedInterval">
+            <summary>
+            The interval of message <see cref="T:StockSharp.Messages.TimeMessage"/> generation.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.PostTradeMarketTimeChangedCount">
+            <summary>
+            The number of the event calls after end of trading.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.CheckTradableDates">
+            <summary>
+            Check loading dates are they tradable.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.StorageRegistry">
+            <summary>
+            Market data storage.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.Drive">
+            <summary>
+            The storage which is used by default.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.StorageFormat">
+            <summary>
+            The format of market data.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.StorageCache">
+            <summary>
+            <see cref="P:StockSharp.Algo.Storages.BasketMarketDataStorage`1.Cache"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.AdapterCache">
+            <summary>
+            <see cref="T:StockSharp.Algo.Storages.MarketDataStorageCache"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.LoadedMessageCount">
+            <summary>
+            The number of loaded events.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.CurrentTime">
+            <summary>
+            Current time.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IHistoryMarketDataManager.IsStarted">
+            <summary>
+            Is started.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.SubscribeAsync(StockSharp.Messages.MarketDataMessage,System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to market data.
+            </summary>
+            <param name="message">Subscription message.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Error if subscription failed, null otherwise.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.Unsubscribe(System.Int64)">
+            <summary>
+            Unsubscribe from market data.
+            </summary>
+            <param name="originalTransactionId">Original subscription transaction id.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.RegisterGenerator(StockSharp.Messages.SecurityId,StockSharp.Messages.DataType,StockSharp.Algo.Testing.Generation.MarketDataGenerator,System.Int64)">
+            <summary>
+            Register generator.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="dataType">Data type.</param>
+            <param name="generator">Generator.</param>
+            <param name="transactionId">Transaction ID.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.UnregisterGenerator(System.Int64)">
+            <summary>
+            Unregister generator.
+            </summary>
+            <param name="originalTransactionId">Original transaction id.</param>
+            <returns><see langword="true"/> if generator was found and removed.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.HasGenerator(StockSharp.Messages.SecurityId,StockSharp.Messages.DataType)">
+            <summary>
+            Check if generator exists.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <param name="dataType">Data type.</param>
+            <returns><see langword="true"/> if generator exists.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.GetSupportedDataTypesAsync(StockSharp.Messages.SecurityId)">
+            <summary>
+            Get supported data types for security.
+            </summary>
+            <param name="securityId">Security ID.</param>
+            <returns>Supported data types.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.StartAsync(System.Collections.Generic.IEnumerable{StockSharp.Messages.BoardMessage})">
+            <summary>
+            Start market data generation.
+            </summary>
+            <param name="boards">Exchange boards.</param>
+            <returns>Async enumerable of messages.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.Stop">
+            <summary>
+            Stop market data generation.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.IHistoryMarketDataManager.Reset">
+            <summary>
+            Reset state.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.IMarketEmulator">
+            <summary>
+            The interface, describing paper trading.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.Settings">
+            <summary>
+            Emulator settings.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.ProcessedMessageCount">
+            <summary>
+            The number of processed messages.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.SecurityProvider">
+            <summary>
+            The provider of information about instruments.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.PortfolioProvider">
+            <summary>
+            The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.ExchangeInfoProvider">
+            <summary>
+            Exchanges and trading boards provider.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.IMarketEmulator.PossibleSupportedMessages">
+            <summary>
+            Possible supported message types.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.ITradingTimeLineGenerator">
+            <summary>
+            Interface for generating trading time line and working with trading schedules.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.ITradingTimeLineGenerator.GetSimpleTimeLine(StockSharp.Messages.BoardMessage[],System.DateTime,System.TimeSpan)">
+            <summary>
+            Generate simple time line messages for a date when no market data is available.
+            </summary>
+            <param name="boards">Trading boards.</param>
+            <param name="date">Date.</param>
+            <param name="interval">Time interval.</param>
+            <returns>Time messages.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.ITradingTimeLineGenerator.GetPostTradeTimeMessages(System.DateTime,System.TimeSpan,System.TimeSpan,System.Int32)">
+            <summary>
+            Generate post-trade time messages after trading session ends.
+            </summary>
+            <param name="date">Date.</param>
+            <param name="lastTime">Last trading time.</param>
+            <param name="interval">Time interval.</param>
+            <param name="count">Number of messages to generate.</param>
+            <returns>Time messages.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.ITradingTimeLineGenerator.GetOrderedRanges(StockSharp.Messages.BoardMessage[],System.DateTime)">
+            <summary>
+            Get ordered and merged trading time ranges for boards.
+            </summary>
+            <param name="boards">Trading boards.</param>
+            <param name="date">Date.</param>
+            <returns>Ordered ranges with associated boards.</returns>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.ITradingTimeLineGenerator.IsTradeDate(StockSharp.Messages.BoardMessage[],System.DateTime)">
+            <summary>
+            Check if any board has trading on the specified date.
+            </summary>
+            <param name="boards">Trading boards.</param>
+            <param name="date">Date to check.</param>
+            <returns><see langword="true"/> if at least one board is trading.</returns>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.MarketEmulatorAdapter">
+            <summary>
+            Adapter wrapping <see cref="T:StockSharp.Algo.Testing.IMarketEmulator"/> to provide <see cref="T:StockSharp.Messages.IMessageAdapter"/> interface.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorAdapter.#ctor(StockSharp.Algo.Testing.IMarketEmulator,Ecng.Common.IdGenerator)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="emulator">The market emulator.</param>
+            <param name="transactionIdGenerator">Transaction id generator.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.Emulator">
+            <summary>
+            The market emulator.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.IsPositionsEmulationRequired">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.IsSupportTransactionLog">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.IsSupportExecutionsPnL">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.IsAutoReplyOnTransactonalUnsubscription">
+            <inheritdoc />
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorAdapter.CurrentTime">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorAdapter.OnSendInMessageAsync(StockSharp.Messages.Message,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorAdapter.Clone">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorAdapter.DisposeManaged">
+            <inheritdoc />
+        </member>
+        <member name="T:StockSharp.Algo.Testing.EmulationCandlePrices">
+            <summary>
+            Candle price for execution.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.EmulationCandlePrices.Middle">
+            <summary>
+            Middle price.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.EmulationCandlePrices.Open">
+            <summary>
+            Open price.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.EmulationCandlePrices.High">
+            <summary>
+            High price.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.EmulationCandlePrices.Low">
+            <summary>
+            Low price.
+            </summary>
+        </member>
+        <member name="F:StockSharp.Algo.Testing.EmulationCandlePrices.Close">
+            <summary>
+            Close price.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.MarketEmulatorSettings">
+            <summary>
+            Settings of exchange emulator.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorSettings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.MarketEmulatorSettings"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CandlePrice">
+            <summary>
+            <see cref="T:StockSharp.Algo.Testing.EmulationCandlePrices"/>
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.MatchOnTouch">
+            <summary>
+            At emulation of clearing by trades, to perform clearing of orders, when trade price touches the order price (is equal to order price), rather than only when the trade price is better than order price. Is On by default (optimistic scenario).
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.Failing">
+            <summary>
+            The percentage value of new orders registration error. The value may be from 0 (not a single error) to 100. By default is Off.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.Latency">
+            <summary>
+            The minimal value of the registered orders delay. By default, it is <see cref="F:System.TimeSpan.Zero"/>, which means instant adoption of registered orders by exchange.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.InitialOrderId">
+            <summary>
+            The number, starting at which the emulator will generate identifiers for orders <see cref="P:StockSharp.BusinessEntities.Order.Id"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.InitialTradeId">
+            <summary>
+            The number, starting at which the emulator will generate identifiers fir trades <see cref="P:StockSharp.Messages.ExecutionMessage.TradeId"/>.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.SpreadSize">
+            <summary>
+            The size of spread in price increments. It used at determination of spread for generation of order book from tick trades. By default equals to 2.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.MaxDepth">
+            <summary>
+            The maximal depth of order book, which will be generated from ticks. It used, if there is no order book history. By default equals to 5.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.PortfolioRecalcInterval">
+            <summary>
+            The interval for recalculation of data on portfolios. If interval equals <see cref="F:System.TimeSpan.Zero"/>, recalculation is not performed.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.ConvertTime">
+            <summary>
+            To convert time for orders and trades into exchange time. By default, it is disabled.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.TimeZone">
+            <summary>
+            Information about the time zone where the exchange is located.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.PriceLimitOffset">
+            <summary>
+            The price shift from the previous trade, determining boundaries of maximal and minimal prices for the next session. Used only if there is no saved information <see cref="T:StockSharp.Messages.Level1ChangeMessage"/>. By default, it equals to 40%.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.IncreaseDepthVolume">
+            <summary>
+            To add the additional volume into order book at registering orders with greater volume. By default, it is enabled.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CheckTradingState">
+            <summary>
+            Check trading state.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CheckMoney">
+            <summary>
+            Check money balance.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CheckShortable">
+            <summary>
+            Can have short positions.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.AllowStoreGenerateMessages">
+            <summary>
+            Allow store generated by <see cref="T:StockSharp.Algo.Testing.IMarketEmulator"/> messages.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CheckTradableDates">
+            <summary>
+            Check loading dates are they tradable.
+            </summary>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.MarketEmulatorSettings.CommissionRules">
+            <summary>
+            Commission rules.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorSettings.Save(Ecng.Serialization.SettingsStorage)">
+            <summary>
+            To save the state of paper trading parameters.
+            </summary>
+            <param name="storage">Storage.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.MarketEmulatorSettings.Load(Ecng.Serialization.SettingsStorage)">
+            <summary>
+            To load the state of paper trading parameters.
+            </summary>
+            <param name="storage">Storage.</param>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.RealTimeEmulationTrader`1">
+            <summary>
+            The simulation connection, intended for strategy testing with real connection to trading system through <see cref="P:StockSharp.Algo.Testing.RealTimeEmulationTrader`1.UnderlyngMarketDataAdapter"/>, but without real registering orders on stock. Execution of orders and their trades are emulated by connection, using information by order books, coming from real connection.
+            </summary>
+            <typeparam name="TUnderlyingMarketDataAdapter">The type <see cref="T:StockSharp.Messages.IMessageAdapter"/>, through which market data will be received.</typeparam>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.RealTimeEmulationTrader`1.#ctor(`0,StockSharp.BusinessEntities.ISecurityProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.RealTimeEmulationTrader`1"/>.
+            </summary>
+            <param name="underlyngMarketDataAdapter"><see cref="T:StockSharp.Messages.IMessageAdapter"/>, through which market data will be got.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.RealTimeEmulationTrader`1.#ctor(`0,StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.Portfolio,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.RealTimeEmulationTrader`1"/>.
+            </summary>
+            <param name="underlyngMarketDataAdapter"><see cref="T:StockSharp.Messages.IMessageAdapter"/>, through which market data will be got.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolio">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="ownAdapter">Track the connection <paramref name="underlyngMarketDataAdapter" /> lifetime.</param>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.RealTimeEmulationTrader`1.#ctor(`0,StockSharp.BusinessEntities.ISecurityProvider,StockSharp.BusinessEntities.IPortfolioProvider,StockSharp.BusinessEntities.IExchangeInfoProvider,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StockSharp.Algo.Testing.RealTimeEmulationTrader`1"/>.
+            </summary>
+            <param name="underlyngMarketDataAdapter"><see cref="T:StockSharp.Messages.IMessageAdapter"/>, through which market data will be got.</param>
+            <param name="securityProvider">The provider of information about instruments.</param>
+            <param name="portfolioProvider">The portfolio to be used to register orders. If value is not given, the portfolio with default name Simulator will be created.</param>
+            <param name="ownAdapter">Track the connection <paramref name="underlyngMarketDataAdapter" /> lifetime.</param>
+            <param name="exchangeInfoProvider">Exchanges and trading boards provider.</param>
+        </member>
+        <member name="P:StockSharp.Algo.Testing.RealTimeEmulationTrader`1.UnderlyngMarketDataAdapter">
+            <summary>
+            <see cref="T:StockSharp.Messages.IMessageAdapter"/>, through which market data will be got.
+            </summary>
+        </member>
+        <member name="T:StockSharp.Algo.Testing.TradingTimeLineGenerator">
+            <summary>
+            Default implementation of <see cref="T:StockSharp.Algo.Testing.ITradingTimeLineGenerator"/>.
+            </summary>
+        </member>
+        <member name="M:StockSharp.Algo.Testing.TradingTimeLineGenerator.GetSimpleTimeLine(StockSharp.Messages.BoardMessage[],System.DateTime,System.TimeSpan)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.TradingTimeLineGenerator.GetPostTradeTimeMessages(System.DateTime,System.TimeSpan,System.TimeSpan,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.TradingTimeLineGenerator.GetOrderedRanges(StockSharp.Messages.BoardMessage[],System.DateTime)">
+            <inheritdoc />
+        </member>
+        <member name="M:StockSharp.Algo.Testing.TradingTimeLineGenerator.IsTradeDate(StockSharp.Messages.BoardMessage[],System.DateTime)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
